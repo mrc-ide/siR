@@ -1,7 +1,7 @@
 #' Closed SIR (ODIN)
 #'
 #' @param sigma Recovery rate (1 / mean duration of infection)
-#' @param beta Transmission parameter (contact rate * probability of infection upon contact)
+#' @param beta  Probability of infection given infectious contact
 #' @param N Population size
 #' @param infected Number of infected people at time = 0
 #' @param t Vector of times
