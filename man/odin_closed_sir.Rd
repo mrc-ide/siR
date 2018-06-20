@@ -4,18 +4,22 @@
 \alias{odin_closed_sir}
 \title{Closed SIR (ODIN)}
 \usage{
-odin_closed_sir(sigma = 2, beta = 4, init = c(1000, 1, 0), t = seq(0,
-  10, length.out = 2000))
+odin_closed_sir(sigma = 2, beta = 6, N = 1000, infected = 1,
+  t = seq(0, 10, length.out = 2000))
 }
 \arguments{
 \item{sigma}{Recovery rate (1 / mean duration of infection)}
 
 \item{beta}{Transmission parameter (contact rate * probability of infection upon contact)}
 
-\item{init}{Vector of initial values (S, I, R)}
+\item{N}{Population size}
+
+\item{infected}{Number of infected people at time = 0}
+
+\item{t}{Vector of times}
 }
 \value{
-An odin model
+Odin closed SIR model output
 }
 \description{
 Closed SIR (ODIN)
