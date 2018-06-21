@@ -4,30 +4,26 @@
 \alias{odin_closed_sir}
 \title{Closed SIR (ODIN)}
 \usage{
-odin_closed_sir(sigma = 2, beta = 6, N = 1000, infected = 1,
-  t = seq(0, 10, length.out = 2000))
+odin_closed_sir(sigma = 2, beta = 6, N = 1000, i0 = 1, t_final = 100,
+  dt = 0.01)
 }
 \arguments{
 \item{sigma}{Recovery rate (1 / mean duration of infection)}
 
-\item{beta}{Transmission parameter (contact rate * probability of infection upon contact)}
+\item{beta}{Probability of infection given infectious contact}
 
 \item{N}{Population size}
 
-\item{infected}{Number of infected people at time = 0}
+\item{i0}{Number of infected people at time = 0}
 
-\item{t}{Vector of times}
+\item{t_final}{End time}
+
+\item{dt}{time step}
 }
 \value{
 Odin closed SIR model output
 }
 \description{
 Closed SIR (ODIN)
-}
-\examples{
-m1 <- odin_closed_sir()
-plot(m1$S ~ m1$t,  t = "l", ylim = c(0, 1001))
-lines(m1$I ~ m1$t, col = "red")
-lines(m1$R ~ m1$t,  col = "blue")
 }
 
