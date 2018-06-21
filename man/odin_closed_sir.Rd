@@ -10,7 +10,7 @@ odin_closed_sir(sigma = 2, beta = 6, N = 1000, i0 = 1, t_final = 100,
 \arguments{
 \item{sigma}{Recovery rate (1 / mean duration of infection)}
 
-\item{beta}{Probability of infection given infectious contact}
+\item{beta}{Transmission parameter}
 
 \item{N}{Population size}
 

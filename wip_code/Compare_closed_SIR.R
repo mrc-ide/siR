@@ -8,7 +8,7 @@ i0 <- 10
 
 plot(NA, xlim = c(1, t_f), ylim = c(0, N), xlab = "Time", ylab = "N")
 
-for(i in 1:10){
+for(i in 1:20){
   t1 <- ibm_closed_SIR(N = N, beta = beta, sigma = sigma, i0 = i0, t_final = t_f, dt = 0.01)
   lines(t1$S ~ t1$t, col = scales::alpha("black", 0.2))
   lines(t1$I ~ t1$t, col = scales::alpha("red", 0.2))

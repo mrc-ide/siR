@@ -4,12 +4,10 @@
 \alias{draw_sample}
 \title{Sample events for a group of individuals from binomial}
 \usage{
-draw_sample(people, size, prob)
+draw_sample(people, prob)
 }
 \arguments{
 \item{people}{index of individuals}
-
-\item{size}{Sample size}
 
 \item{prob}{Binomial probability}
 }

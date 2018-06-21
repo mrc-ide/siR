@@ -46,9 +46,9 @@ ibm_closed_SIR <- function(sigma = 0.4, beta = 0.5, N = 1000, i0 = 1,
   for(i in 2:length(t)){
     # Sample people who get infected
     prob_inf <- infection_probability(beta = beta, I_prev = I[i - 1], N_inv = N_inv, dt = dt)
-    infected_t <- draw_sample(people = Ns[susceptible == 1], size = S[i - 1], prob = prob_inf)
+    infected_t <- draw_sample(people = Ns[susceptible == 1],prob = prob_inf)
     # Sample people who recover
-    recovered_t <- draw_sample(people = Ns[infected == 1], size = I[i - 1], prob = prob_recover)
+    recovered_t <- draw_sample(people = Ns[infected == 1], prob = prob_recover)
 
     # Update status of those infected S->I
     susceptible[infected_t] <- 0
@@ -81,12 +81,11 @@ infection_probability <- function(beta, I_prev, N_inv, dt){
 #' Sample events for a group of individuals from binomial
 #'
 #' @param people index of individuals
-#' @param size  Sample size
 #' @param prob Binomial probability
 #'
 #' @return Sampled successes from people
-draw_sample <- function(people, size, prob){
-  sample(people, rbinom(n = 1, size = size, prob = prob))
+draw_sample <- function(people, prob){
+  sample(people, rbinom(n = 1, size = length(people), prob = prob))
 }
 
 #' Convert a rate to a probability
