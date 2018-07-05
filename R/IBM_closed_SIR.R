@@ -1,5 +1,3 @@
-# Currently this is pretty much a stochastic model, can include individual heterogeneity into it?
-
 #' Closed SIR (IBM)
 #'
 #' @param sigma Recovery rate (1 / mean duration of infection)
@@ -15,7 +13,7 @@ ibm_closed_sir <- function(sigma = 2, beta = 6, N = 1000, i0 = 1,
                            t_final = 100, dt = 0.01){
 
   # Create vector of times
-  t <- seq(1, t_final, dt)
+  t <- seq(0, t_final, dt)
 
   # daily prob of infection
   prob_recover <- rate_to_prob(sigma, dt)

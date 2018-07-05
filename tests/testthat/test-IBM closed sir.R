@@ -1,7 +1,7 @@
 context("IBM closed sir")
 
 test_that("Model runs", {
-  m2 <- ibm_closed_sir()
+  m1 <- ibm_closed_sir()
   expect_type(m1, "list")
   expect_named(m1, c("t", "S", "I", "R"))
   expect_equal(m1[1, 2], 999)

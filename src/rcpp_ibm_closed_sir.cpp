@@ -4,7 +4,7 @@
 /// Don't use this, use Rcpp:: where possible
 using namespace Rcpp;
 
-// [[Rcpp::export]]
+
 NumericVector seq_rcpp(int t0, int tf, double dt){
   NumericVector out(((tf - t0) / dt) + 1);
   out[0] = t0;
@@ -21,7 +21,7 @@ NumericMatrix ibm_closed_sir_rcpp(double sigma = 2, double beta = 4, int N = 100
   double prob_inf;
 
   // Create vector of times
-  NumericVector t = seq_rcpp(1, t_final, dt);
+  NumericVector t = seq_rcpp(0, t_final, dt);
   NumericMatrix out(t.length(), 4);
   // daily prob of infection
   double prob_recover =  1 - exp(-sigma * dt);

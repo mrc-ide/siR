@@ -5,19 +5,6 @@
 
 using namespace Rcpp;
 
-// seq_rcpp
-NumericVector seq_rcpp(int t0, int tf, double dt);
-RcppExport SEXP _siR_seq_rcpp(SEXP t0SEXP, SEXP tfSEXP, SEXP dtSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type t0(t0SEXP);
-    Rcpp::traits::input_parameter< int >::type tf(tfSEXP);
-    Rcpp::traits::input_parameter< double >::type dt(dtSEXP);
-    rcpp_result_gen = Rcpp::wrap(seq_rcpp(t0, tf, dt));
-    return rcpp_result_gen;
-END_RCPP
-}
 // ibm_closed_sir_rcpp
 NumericMatrix ibm_closed_sir_rcpp(double sigma, double beta, int N, int i0, int t_final, double dt);
 RcppExport SEXP _siR_ibm_closed_sir_rcpp(SEXP sigmaSEXP, SEXP betaSEXP, SEXP NSEXP, SEXP i0SEXP, SEXP t_finalSEXP, SEXP dtSEXP) {
@@ -64,7 +51,6 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_siR_seq_rcpp", (DL_FUNC) &_siR_seq_rcpp, 3},
     {"_siR_ibm_closed_sir_rcpp", (DL_FUNC) &_siR_ibm_closed_sir_rcpp, 6},
     {"_siR_seq_rcpp2", (DL_FUNC) &_siR_seq_rcpp2, 2},
     {"_siR_ibm_closed_sir_rcpp2", (DL_FUNC) &_siR_ibm_closed_sir_rcpp2, 6},

@@ -35,5 +35,5 @@ odin_closed_sir <- function(sigma = 2, beta = 6, N = 1000, i0 = 1,
   m1 <- closed_sir(sigma = sigma, beta = beta, N = N,
                    init_S = N - i0, init_I = i0)
   # Run model
-  as.data.frame(m1$run(seq(1, t_final, dt)))
+  as.data.frame(m1$run(seq(0, t_final, dt)))
 }

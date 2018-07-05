@@ -6,7 +6,7 @@ sigma <- 1
 N <- 1000
 i0 <- 10
 
-plot(NA, xlim = c(1, t_f), ylim = c(0, N), xlab = "Time", ylab = "N")
+plot(NA, xlim = c(0, t_f), ylim = c(0, N), xlab = "Time", ylab = "N")
 
 for(i in 1:10){
   t1 <- ibm_closed_sir(N = N, beta = beta, sigma = sigma, i0 = i0, t_final = t_f, dt = 0.01)
@@ -24,9 +24,9 @@ for(i in 1:10){
 
 for(i in 1:10){
   t1 <- ibm_closed_sir_rcpp2(N = N, beta = beta, sigma = sigma, i0 = i0, t_final = t_f, dt = 0.01)
-  lines((t1$t + 1), t1$S , col = scales::alpha("deeppink", 0.5))
-  lines((t1$t + 1),t1$I, col = scales::alpha("deeppink", 0.5))
-  lines((t1$t + 1),t1$R , col = scales::alpha("deeppink", 0.5))
+  lines(t1$S ~ t1$t, col = scales::alpha("orange", 0.5))
+  lines(t1$I ~ t1$t, col = scales::alpha("orange", 0.5))
+  lines(t1$R ~ t1$t , col = scales::alpha("orange", 0.5))
 }
 
 det <- odin_closed_sir(N = N, beta = beta, sigma = sigma, i0 = i0, t_final = t_f, dt = 0.01)
