@@ -11,7 +11,7 @@
 #'
 #' @return IBM closed SIR model output
 #' @export
-ibm_closed_SIR <- function(sigma = 0.4, beta = 0.5, N = 1000, i0 = 1,
+ibm_closed_sir <- function(sigma = 2, beta = 6, N = 1000, i0 = 1,
                            t_final = 100, dt = 0.01){
 
   # Create vector of times
@@ -71,7 +71,7 @@ ibm_closed_SIR <- function(sigma = 0.4, beta = 0.5, N = 1000, i0 = 1,
 #'
 #' @param I_prev Number of infected people in previous timestep
 #' @param N_inv  Inverse of the number of people
-#' @inheritParams ibm_closed_SIR
+#' @inheritParams ibm_closed_sir
 #'
 #' @return Probability of infection
 infection_probability <- function(beta, I_prev, N_inv, dt){
