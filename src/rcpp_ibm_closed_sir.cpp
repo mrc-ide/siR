@@ -16,20 +16,20 @@ NumericVector seq_rcpp(int t0, int tf, double dt){
 
 //' @export
 // [[Rcpp::export]]
-NumericMatrix ibm_closed_sir_rcpp(double sigma = 2, double beta = 4, int N = 1000, int i0 = 1, int t_final = 100, double dt = 0.01){
+List ibm_closed_sir_rcpp(double sigma = 2, double beta = 4, int N = 1000, int i0 = 1, int t_final = 100, double dt = 0.01){
 
   double prob_inf;
 
   // Create vector of times
   NumericVector t = seq_rcpp(0, t_final, dt);
-  NumericMatrix out(t.length(), 4);
+
   // daily prob of infection
   double prob_recover =  1 - exp(-sigma * dt);
 
   // State variables
-  IntegerVector S(t.length());
-  IntegerVector I(t.length());
-  IntegerVector R(t.length());
+  IntegerVector S(t.size());
+  IntegerVector I(t.size());
+  IntegerVector R(t.size());
 
   // Individual variables
   IntegerVector susceptible(N, 1);
@@ -39,7 +39,7 @@ NumericMatrix ibm_closed_sir_rcpp(double sigma = 2, double beta = 4, int N = 100
 
   double N2 = N;
   double N_inv = 1 / N2;
-  IntegerVector Ns = seq(0, N-1);
+  IntegerVector Ns = seq(0, N - 1);
 
   // Initialise infection
   IntegerVector first_infected = sample(Ns, i0);
@@ -56,11 +56,12 @@ NumericMatrix ibm_closed_sir_rcpp(double sigma = 2, double beta = 4, int N = 100
   int RunningTotal_Infected = I[0];
   int RunningTotal_Recovered = R[0];
 
+  // Loop through all times
   for(int i = 1; i < t.length(); i++){
     prob_inf = 1 - exp(-beta * RunningTotal_Infected * N_inv * dt);
-
+    // Loop through all people
     for(int j = 0; j < N; j++){
-
+      // If S, draw for infection
       if(susceptible[j] == 1){
         random_binom = R::rbinom(1, prob_inf);
         if(random_binom == 1){
@@ -70,7 +71,7 @@ NumericMatrix ibm_closed_sir_rcpp(double sigma = 2, double beta = 4, int N = 100
           RunningTotal_Infected ++;
         }
       }
-
+      // If I, draw for recovery
       if(infected[j] == 1){
         random_binom = R::rbinom(1, prob_recover);
         if(random_binom == 1){
@@ -87,11 +88,12 @@ NumericMatrix ibm_closed_sir_rcpp(double sigma = 2, double beta = 4, int N = 100
     I[i] = RunningTotal_Infected;
     R[i] = RunningTotal_Recovered;
   }
-  out(_,0) = t;
-  out(_,1) = S;
-  out(_,2) = I;
-  out(_,3) = R;
-  return out;
+
+  return Rcpp::List::create(
+    Rcpp::Named("t") = t,
+    Rcpp::Named("S") = S,
+    Rcpp::Named("I") = I,
+    Rcpp::Named("R") = R);
 }
 
 

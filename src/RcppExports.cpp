@@ -6,7 +6,7 @@
 using namespace Rcpp;
 
 // ibm_closed_sir_rcpp
-NumericMatrix ibm_closed_sir_rcpp(double sigma, double beta, int N, int i0, int t_final, double dt);
+List ibm_closed_sir_rcpp(double sigma, double beta, int N, int i0, int t_final, double dt);
 RcppExport SEXP _siR_ibm_closed_sir_rcpp(SEXP sigmaSEXP, SEXP betaSEXP, SEXP NSEXP, SEXP i0SEXP, SEXP t_finalSEXP, SEXP dtSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;

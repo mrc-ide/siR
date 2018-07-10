@@ -17,9 +17,9 @@ for(i in 1:10){
 
 for(i in 1:10){
   t1 <- ibm_closed_sir_rcpp(N = N, beta = beta, sigma = sigma, i0 = i0, t_final = t_f, dt = 0.01)
-  lines(t1[,2] ~ t1[,1], col = scales::alpha("purple", 0.5))
-  lines(t1[,3] ~ t1[,1], col = scales::alpha("purple", 0.5))
-  lines(t1[,4] ~ t1[,1], col = scales::alpha("purple", 0.5))
+  lines(t1$S ~ t1$t, col = scales::alpha("purple", 0.5))
+  lines(t1$I ~ t1$t, col = scales::alpha("purple", 0.5))
+  lines(t1$R ~ t1$t, col = scales::alpha("purple", 0.5))
 }
 
 for(i in 1:10){
