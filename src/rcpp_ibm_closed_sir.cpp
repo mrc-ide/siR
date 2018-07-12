@@ -14,6 +14,11 @@ NumericVector seq_rcpp(int t0, int tf, double dt){
   return out;
 }
 
+//' ibm_closed_sir_rcpp 1
+//'
+//' @inheritParams ibm_closed_sir
+//'
+//' @return IBM model output
 //' @export
 // [[Rcpp::export]]
 List ibm_closed_sir_rcpp(double sigma = 2, double beta = 4, int N = 1000, int i0 = 1, int t_final = 100, double dt = 0.01){

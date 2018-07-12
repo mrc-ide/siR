@@ -10,7 +10,8 @@ Encoding: UTF-8
 LazyData: true
 LinkingTo: Rcpp
 Imports:
-    Rcpp
+    Rcpp,
+    odin
 RoxygenNote: 5.0.1
 URL: https://github.com/mrc-ide/siR
 BugReports: https://github.com/mrc-ide/siR/issues

@@ -9,7 +9,7 @@ rate_to_prob(rate, dt)
 \arguments{
 \item{rate}{Rate}
 
-\item{timestep}{}
+\item{dt}{timestep}
 }
 \value{
 A probability

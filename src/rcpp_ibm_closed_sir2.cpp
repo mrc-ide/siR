@@ -23,6 +23,11 @@ bool compareByLength(const person &person1, const person &person2){
   return person1.s > person2.s;
 }
 
+//' ibm_closed_sir_rcpp 2
+//'
+//' @inheritParams ibm_closed_sir
+//'
+//' @return IBM model output
 //' @export
 // [[Rcpp::export]]
 List ibm_closed_sir_rcpp2(const double sigma = 2, const double beta = 4, const int N = 1000, const int i0 = 1, const int t_final = 100, const double dt = 0.01){
@@ -67,7 +72,7 @@ List ibm_closed_sir_rcpp2(const double sigma = 2, const double beta = 4, const i
   I[0] =  i0;
   R[0] = 0;
 
-  for(int i = 1; i < t.size(); i++){
+  for(unsigned int i = 1; i < t.size(); i++){
     prob_inf = 1 - exp(-beta * I[i - 1] * N_inv * dt);
     new_infections = R::rbinom(S[i - 1], prob_inf);
     new_recoveries = R::rbinom(I[i - 1], prob_recover);

@@ -89,7 +89,7 @@ draw_sample <- function(people, prob){
 #' Convert a rate to a probability
 #'
 #' @param rate Rate
-#' @param timestep
+#' @param dt timestep
 #'
 #' @return A probability
 rate_to_prob <- function(rate, dt){
