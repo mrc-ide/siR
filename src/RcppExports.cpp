@@ -21,18 +21,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// seq_rcpp2
-std::vector<double> seq_rcpp2(const int& tf, const double& dt);
-RcppExport SEXP _siR_seq_rcpp2(SEXP tfSEXP, SEXP dtSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const int& >::type tf(tfSEXP);
-    Rcpp::traits::input_parameter< const double& >::type dt(dtSEXP);
-    rcpp_result_gen = Rcpp::wrap(seq_rcpp2(tf, dt));
-    return rcpp_result_gen;
-END_RCPP
-}
 // ibm_closed_sir_rcpp2
 List ibm_closed_sir_rcpp2(const double sigma, const double beta, const int N, const int i0, const int t_final, const double dt);
 RcppExport SEXP _siR_ibm_closed_sir_rcpp2(SEXP sigmaSEXP, SEXP betaSEXP, SEXP NSEXP, SEXP i0SEXP, SEXP t_finalSEXP, SEXP dtSEXP) {
@@ -52,7 +40,6 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_siR_ibm_closed_sir_rcpp", (DL_FUNC) &_siR_ibm_closed_sir_rcpp, 6},
-    {"_siR_seq_rcpp2", (DL_FUNC) &_siR_seq_rcpp2, 2},
     {"_siR_ibm_closed_sir_rcpp2", (DL_FUNC) &_siR_ibm_closed_sir_rcpp2, 6},
     {NULL, NULL, 0}
 };

@@ -6,10 +6,6 @@ ibm_closed_sir_rcpp <- function(sigma = 2, beta = 4, N = 1000L, i0 = 1L, t_final
     .Call('_siR_ibm_closed_sir_rcpp', PACKAGE = 'siR', sigma, beta, N, i0, t_final, dt)
 }
 
-seq_rcpp2 <- function(tf, dt) {
-    .Call('_siR_seq_rcpp2', PACKAGE = 'siR', tf, dt)
-}
-
 #' @export
 ibm_closed_sir_rcpp2 <- function(sigma = 2, beta = 4, N = 1000L, i0 = 1L, t_final = 100L, dt = 0.01) {
     .Call('_siR_ibm_closed_sir_rcpp2', PACKAGE = 'siR', sigma, beta, N, i0, t_final, dt)

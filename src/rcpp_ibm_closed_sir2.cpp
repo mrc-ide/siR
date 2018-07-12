@@ -9,7 +9,7 @@ struct person{
   int r;
 };
 
-// [[Rcpp::export]]
+
 std::vector<double> seq_rcpp2(const int &tf, const double &dt){
   std::vector<double> out((tf / dt) + 1);
   out[0] = 0;
