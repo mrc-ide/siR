@@ -10,3 +10,7 @@ r_github_packages:
   - mrc-ide/odin
 after_success:
   - Rscript -e 'library(covr); codecov()'
+notifications:
+  email: false
+  slack: dideimperial:FGpKA1qdJd5D1zicaPrqH0Wj
+
