@@ -1,16 +1,17 @@
 Package: siR
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Individual-based SIR models in R and Rcpp
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: Peter Winskill
+Maintainer: Peter Winskill <p.winskill@imperial.ac.uk>
+Description: Exploring the design and running of IBM in R and Rcpp with simple examples
+License: file LICENSE
 Encoding: UTF-8
 LazyData: true
 LinkingTo: Rcpp
 Imports:
     Rcpp
 RoxygenNote: 5.0.1
+URL: https://github.com/mrc-ide/siR
+BugReports: https://github.com/mrc-ide/siR/issues
 Suggests: testthat
