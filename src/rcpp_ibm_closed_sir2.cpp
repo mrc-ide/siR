@@ -58,9 +58,9 @@ List ibm_closed_sir_rcpp2(const double sigma = 2, const double beta = 4, const i
   }
 
   // Initialise infection
-    // Shuffle the vector
+  // Shuffle the vector
   std::random_shuffle (pop.begin(), pop.end());
-    // Infect first i0 people
+  // Infect first i0 people
   for(int i = 0; i < i0; i++){
     pop[i].s = 0;
     pop[i].i = 1;

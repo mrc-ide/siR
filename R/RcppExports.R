@@ -21,3 +21,13 @@ ibm_closed_sir_rcpp2 <- function(sigma = 2, beta = 4, N = 1000L, i0 = 1L, t_fina
     .Call('_siR_ibm_closed_sir_rcpp2', PACKAGE = 'siR', sigma, beta, N, i0, t_final, dt)
 }
 
+#' ibm_closed_sir_rcpp 3
+#'
+#' @inheritParams ibm_closed_sir
+#'
+#' @return IBM model output
+#' @export
+ibm_closed_sir_rcpp3 <- function(sigma = 2, beta = 4, N = 1000L, i0 = 1L, t_final = 100L, dt = 0.01) {
+    .Call('_siR_ibm_closed_sir_rcpp3', PACKAGE = 'siR', sigma, beta, N, i0, t_final, dt)
+}
+
