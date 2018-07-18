@@ -66,36 +66,37 @@ List ibm_closed_sir_rcpp3(const double sigma = 2, const double beta = 4, const i
 
   // Loop through all times
   for(unsigned int i = 1; i < t.size(); i++){
-
+    // Calculate the probabbility of infection
     prob_inf = 1 - exp(-beta * I[i - 1] * N_inv * dt);
 
+    // Draw numebr of new infections and recoveries
     new_infections = R::rbinom(S[i - 1], prob_inf);
     new_recoveries = R::rbinom(I[i - 1], prob_recover);
 
-    // Remove from susceptible and add to infected
+    // shuffle the susceptible and infecteds
     std::random_shuffle(susceptible.begin(), susceptible.end());
     std::random_shuffle(infected.begin(), infected.end());
 
+    // Add infections to infected and remove from susceptibles
     for(unsigned int j = 0; j < new_infections; j++){
       infected.push_back(susceptible[susceptible.size()]);
       susceptible.pop_back();
-
     }
 
+    // Reverse the infecteds (so newly added infections are at the start and don't get removed)
     std::reverse(infected.begin(), infected.end());
 
-    // Remove from susceptible and add to infected
+    // Add recoveries to recovered and remove from infected
     for(unsigned int k = 0; k < new_recoveries; k++){
       recovered.push_back(infected[infected.size()]);
       infected.pop_back();
     }
 
-
+    // Record state variables
     S[i] = S[i-1] - new_infections;
     I[i] = I[i-1] + new_infections - new_recoveries;
     R[i] = R[i-1] + new_recoveries;
   }
-
 
   return Rcpp::List::create(
     Rcpp::Named("t") = t,
