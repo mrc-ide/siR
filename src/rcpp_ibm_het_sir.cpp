@@ -75,6 +75,19 @@ List ibm_het(double sigma = 2, double beta = 4, int N = 1000, int i0 = 1, Numeri
     // Update the probability of unfection
     prob_inf = 1 - exp(-beta * I[time - 1] * N_inverse * dt);
 
+    // Recoveries (Before infections as infections adds to infected)
+    for (std::list<person* >::iterator it = infected.begin(); it != infected.end(); ++it){
+      if(R::runif(0, 1) < prob_recover){
+        // Add recovered to end to recovered pointer list
+        recovered.push_back(*it);
+        // Remove recovered from infected pointer list
+        it = infected.erase(it);
+        // Update running totals
+        running_total_infected --;
+        running_total_recovered ++;
+      }
+    }
+
     // Infections
     for (std::list<person* >::iterator it = susceptible.begin(); it != susceptible.end(); ++it){
       // Probability of infection is population probability * individual heterogeneity
@@ -89,18 +102,6 @@ List ibm_het(double sigma = 2, double beta = 4, int N = 1000, int i0 = 1, Numeri
       }
     }
 
-    // Recoveries
-    for (std::list<person* >::iterator it = infected.begin(); it != infected.end(); ++it){
-      if(R::runif(0, 1) < prob_recover){
-        // Add recovered to end to recovered pointer list
-        recovered.push_back(*it);
-        // Remove recovered from infected pointer list
-        it = infected.erase(it);
-        // Update running totals
-        running_total_infected --;
-        running_total_recovered ++;
-      }
-    }
     // Calculate the output variables
     S[time] = running_total_susceptible;
     I[time] = running_total_infected;
