@@ -23,18 +23,19 @@ for(i in 1:10){
 }
 
 for(i in 1:10){
-  t1 <- ibm_closed_sir_rcpp2(N = N, beta = beta, sigma = sigma, i0 = i0, t_final = t_f, dt = 0.01)
+  t1 <- ibm_het(N = N, beta = beta, sigma = sigma, i0 = i0, times = seq(0, t_f, 0.01), dt = 0.01)
+  lines(t1$S ~ t1$t, col = scales::alpha("blue", 0.5))
+  lines(t1$I ~ t1$t, col = scales::alpha("blue", 0.5))
+  lines(t1$R ~ t1$t , col = scales::alpha("blue", 0.5))
+}
+
+for(i in 1:10){
+  t1 <- ibm_het(N = N, beta = beta, sigma = sigma, i0 = i0, times = seq(0, t_f, 0.01), dt = 0.01, het = TRUE)
   lines(t1$S ~ t1$t, col = scales::alpha("orange", 0.5))
   lines(t1$I ~ t1$t, col = scales::alpha("orange", 0.5))
   lines(t1$R ~ t1$t , col = scales::alpha("orange", 0.5))
 }
 
-for(i in 1:10){
-  t1 <- ibm_closed_sir_rcpp3(N = N, beta = beta, sigma = sigma, i0 = i0, t_final = t_f, dt = 0.01)
-  lines(t1$S ~ t1$t, col = scales::alpha("deeppink", 0.9))
-  lines(t1$I ~ t1$t, col = scales::alpha("deeppink", 0.9))
-  lines(t1$R ~ t1$t , col = scales::alpha("deeppink", 0.9))
-}
 
 det <- odin_closed_sir(N = N, beta = beta, sigma = sigma, i0 = i0, t_final = t_f, dt = 0.01)
 lines(det$S ~ det$t, col = 'green', lty = 1, lwd = 2)
