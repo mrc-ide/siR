@@ -24,9 +24,9 @@ List ibm_het(double sigma = 2, double beta = 4, int N = 1000, int i0 = 1, Numeri
     pop[p].age = R::runif(0, 80);
     pop[p].heterogeneity = 1;
   }
+  // Including heteogeneity in infection prob (lower on average than without het)
   if(het){
     for(int p = 1; p < N; p++){
-      pop[p].age = R::runif(0, 80);
       pop[p].heterogeneity = R::rbeta(2, 1);
     }
   }
