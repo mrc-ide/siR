@@ -22,7 +22,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // ibm_het
-List ibm_het(double sigma, double beta, int N, int i0, NumericVector times, double dt, bool het);
+Rcpp::List ibm_het(double sigma, double beta, int N, int i0, Rcpp::NumericVector times, double dt, bool het);
 RcppExport SEXP _siR_ibm_het(SEXP sigmaSEXP, SEXP betaSEXP, SEXP NSEXP, SEXP i0SEXP, SEXP timesSEXP, SEXP dtSEXP, SEXP hetSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -31,7 +31,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type beta(betaSEXP);
     Rcpp::traits::input_parameter< int >::type N(NSEXP);
     Rcpp::traits::input_parameter< int >::type i0(i0SEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type times(timesSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type times(timesSEXP);
     Rcpp::traits::input_parameter< double >::type dt(dtSEXP);
     Rcpp::traits::input_parameter< bool >::type het(hetSEXP);
     rcpp_result_gen = Rcpp::wrap(ibm_het(sigma, beta, N, i0, times, dt, het));

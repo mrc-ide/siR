@@ -1,13 +1,9 @@
 #include <Rcpp.h>
-using namespace Rcpp;
-
-struct person{
-  int age;
-  double heterogeneity;
-};
+#include "rcpp_ibm_het.h"
+#include "people.h"
 
 // [[Rcpp::export]]
-List ibm_het(double sigma = 2, double beta = 4, int N = 1000, int i0 = 1, NumericVector times = 0, double dt = 0.1, bool het = false){
+Rcpp::List ibm_het(double sigma = 2, double beta = 4, int N = 1000, int i0 = 1, Rcpp::NumericVector times = 0, double dt = 0.1, bool het = false){
 
   // Intialise variables /////////////////////////////////////////////////////
   double prob_inf;
@@ -15,7 +11,7 @@ List ibm_het(double sigma = 2, double beta = 4, int N = 1000, int i0 = 1, Numeri
   // daily prob of infection
   double prob_recover =  1 - exp(-sigma * dt);
   // Convert times to c++ type for consistency
-  std::vector<double> t = as< std::vector<double> >(times);
+  std::vector<double> t = Rcpp::as< std::vector<double> >(times);
   ///////////////////////////////////////////////////////////////////////////
 
   // Initialise the population //////////////////////////////////////////////
@@ -42,7 +38,7 @@ List ibm_het(double sigma = 2, double beta = 4, int N = 1000, int i0 = 1, Numeri
     susceptible.push_back(&pop[i]);
   }
   // Sample initial infections
-  std::vector<int> initial_infected = as< std::vector<int> >(runif(i0, 0, (N - 1)));
+  std::vector<int> initial_infected = Rcpp::as< std::vector<int> >(Rcpp::runif(i0, 0, (N - 1)));
   // Remove initial infections from suceptible and add to infected
   int counter = 0;
   for (std::list<person* >::iterator it = susceptible.begin(); it != susceptible.end(); ++it){
@@ -57,9 +53,9 @@ List ibm_het(double sigma = 2, double beta = 4, int N = 1000, int i0 = 1, Numeri
   /////////////////////////////////////////////////////////////////////////////
 
   // Initialise state variable outputs ///////////////////////////////////////
-  IntegerVector S(t.size());
-  IntegerVector I(t.size());
-  IntegerVector R(t.size());
+  Rcpp::IntegerVector S(t.size());
+  Rcpp::IntegerVector I(t.size());
+  Rcpp::IntegerVector R(t.size());
 
   S[0] = N - i0;
   I[0] =  i0;
