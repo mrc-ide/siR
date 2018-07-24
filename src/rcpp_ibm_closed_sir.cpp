@@ -1,6 +1,7 @@
 // Including this files header at the start will ensure it is self sufficient and can be included elsewhere
 // #include <thisfile.h>
 #include <Rcpp.h>
+#include "rcpp_ibm.h"
 /// Don't use this, use Rcpp:: where possible
 using namespace Rcpp;
 
