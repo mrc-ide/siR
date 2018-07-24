@@ -2,12 +2,9 @@
 // #include <thisfile.h>
 #include <Rcpp.h>
 #include "rcpp_ibm.h"
-/// Don't use this, use Rcpp:: where possible
-using namespace Rcpp;
 
-
-NumericVector seq_rcpp(int t0, int tf, double dt){
-  NumericVector out(((tf - t0) / dt) + 1);
+Rcpp::NumericVector seq_rcpp(int t0, int tf, double dt){
+  Rcpp::NumericVector out(((tf - t0) / dt) + 1);
   out[0] = t0;
   for(int i = 1; i <= ((tf - t0) / dt); i++){
     out[i] = out[i - 1] + dt;
@@ -22,33 +19,33 @@ NumericVector seq_rcpp(int t0, int tf, double dt){
 //' @return IBM model output
 //' @export
 // [[Rcpp::export]]
-List ibm_closed_sir_rcpp(double sigma = 2, double beta = 4, int N = 1000, int i0 = 1, int t_final = 100, double dt = 0.01){
+Rcpp::List ibm_closed_sir_rcpp(double sigma = 2, double beta = 4, int N = 1000, int i0 = 1, int t_final = 100, double dt = 0.01){
 
   double prob_inf;
 
   // Create vector of times
-  NumericVector t = seq_rcpp(0, t_final, dt);
+  Rcpp::NumericVector t = seq_rcpp(0, t_final, dt);
 
   // daily prob of infection
   double prob_recover =  1 - exp(-sigma * dt);
 
   // State variables
-  IntegerVector S(t.size());
-  IntegerVector I(t.size());
-  IntegerVector R(t.size());
+  Rcpp::IntegerVector S(t.size());
+  Rcpp::IntegerVector I(t.size());
+  Rcpp::IntegerVector R(t.size());
 
   // Individual variables
-  IntegerVector susceptible(N, 1);
-  IntegerVector infected(N, 0);
-  IntegerVector recovered(N, 0);
-  IntegerVector schedule_recovery_time(N, 1);
+  Rcpp::IntegerVector susceptible(N, 1);
+  Rcpp::IntegerVector infected(N, 0);
+  Rcpp::IntegerVector recovered(N, 0);
+  Rcpp::IntegerVector schedule_recovery_time(N, 1);
 
   double N2 = N;
   double N_inv = 1 / N2;
-  IntegerVector Ns = seq(0, N - 1);
+  Rcpp::IntegerVector Ns =  Rcpp::seq(0, N - 1);
 
   // Initialise infection
-  IntegerVector first_infected = sample(Ns, i0);
+  Rcpp::IntegerVector first_infected =  Rcpp::sample(Ns, i0);
   susceptible[first_infected] = 0;
   infected[first_infected] = 1;
   double random_binom;
