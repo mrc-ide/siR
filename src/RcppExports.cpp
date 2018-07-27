@@ -5,6 +5,16 @@
 
 using namespace Rcpp;
 
+// demog_test
+void demog_test(int N);
+RcppExport SEXP _siR_demog_test(SEXP NSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type N(NSEXP);
+    demog_test(N);
+    return R_NilValue;
+END_RCPP
+}
 // ibm_closed_sir_rcpp
 Rcpp::List ibm_closed_sir_rcpp(double sigma, double beta, int N, int i0, int t_final, double dt);
 RcppExport SEXP _siR_ibm_closed_sir_rcpp(SEXP sigmaSEXP, SEXP betaSEXP, SEXP NSEXP, SEXP i0SEXP, SEXP t_finalSEXP, SEXP dtSEXP) {
@@ -40,6 +50,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_siR_demog_test", (DL_FUNC) &_siR_demog_test, 1},
     {"_siR_ibm_closed_sir_rcpp", (DL_FUNC) &_siR_ibm_closed_sir_rcpp, 6},
     {"_siR_ibm_het", (DL_FUNC) &_siR_ibm_het, 7},
     {NULL, NULL, 0}

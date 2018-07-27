@@ -6,9 +6,4 @@ struct person{
   double heterogeneity;
 };
 
-struct Person{
-  int age;
-  double heterogeneity;
-};
-
 #endif
