@@ -11,6 +11,7 @@ ibm_closed_sir_rcpp <- function(sigma = 2, beta = 4, N = 1000L, i0 = 1L, t_final
     .Call('_siR_ibm_closed_sir_rcpp', PACKAGE = 'siR', sigma, beta, N, i0, t_final, dt)
 }
 
+#' @export
 ibm_het <- function(sigma = 2, beta = 4, N = 1000L, i0 = 1L, times = 0L, dt = 0.1, het = FALSE) {
     .Call('_siR_ibm_het', PACKAGE = 'siR', sigma, beta, N, i0, times, dt, het)
 }

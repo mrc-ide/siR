@@ -2,6 +2,7 @@
 
 export(ibm_closed_sir)
 export(ibm_closed_sir_rcpp)
+export(ibm_het)
 export(odin_closed_sir)
 importFrom(Rcpp,sourceCpp)
 useDynLib(siR)

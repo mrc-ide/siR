@@ -2,13 +2,13 @@
 devtools::load_all()
 
 R <- function(N){
-  ibm_closed_sir(N = N, beta = 2, sigma = 1, i0 = 10, t_final = 20, dt = 0.01)
+  ibm_closed_sir(N = N, beta = 2, sigma = 1, i0 = 10, t_final = 20, dt = 0.1)
 }
 Rcpp_basic <- function(N){
-  ibm_closed_sir_rcpp(N = N, beta = 2, sigma = 1, i0 = 10, t_final = 20, dt = 0.01)
+  ibm_closed_sir_rcpp(N = N, beta = 2, sigma = 1, i0 = 10, t_final = 20, dt = 0.1)
 }
 Rcpp_het <- function(N){
-  ibm_het(N = N, beta = 2, sigma = 1, i0 = 10, times = seq(0, 20, 0.01), dt = 0.01, het = FALSE)
+  ibm_het(N = N, beta = 2, sigma = 1, i0 = 10, times = seq(0, 20, 0.1), dt = 0.1, het = FALSE)
 }
 
 

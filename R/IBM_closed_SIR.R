@@ -44,7 +44,7 @@ ibm_closed_sir <- function(sigma = 2, beta = 6, N = 1000, i0 = 1,
   for(i in 2:length(t)){
     # Sample people who get infected
     prob_inf <- infection_probability(beta = beta, I_prev = I[i - 1], N_inv = N_inv, dt = dt)
-    infected_t <- draw_sample(people = Ns[susceptible == 1],prob = prob_inf)
+    infected_t <- draw_sample(people = Ns[susceptible == 1], prob = prob_inf)
     # Sample people who recover
     recovered_t <- draw_sample(people = Ns[infected == 1], prob = prob_recover)
 

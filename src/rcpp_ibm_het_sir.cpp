@@ -2,6 +2,7 @@
 #include "rcpp_ibm_het.h"
 #include "people.h"
 
+//' @export
 // [[Rcpp::export]]
 Rcpp::List ibm_het(double sigma = 2, double beta = 4, int N = 1000, int i0 = 1, Rcpp::NumericVector times = 0, double dt = 0.1, bool het = false){
 
@@ -68,7 +69,7 @@ Rcpp::List ibm_het(double sigma = 2, double beta = 4, int N = 1000, int i0 = 1, 
 
   // Loop through all times
   for(unsigned int time = 1; time < t.size(); time++){
-    // Update the probability of unfection
+    // Update the probability of infection
     prob_inf = 1 - exp(-beta * I[time - 1] * N_inverse * dt);
 
     // Recoveries (Before infections as infections adds to infected)
