@@ -6,13 +6,25 @@
 using namespace Rcpp;
 
 // demog_test
-void demog_test(int N);
-RcppExport SEXP _siR_demog_test(SEXP NSEXP) {
+void demog_test(int N, Rcpp::NumericVector ad);
+RcppExport SEXP _siR_demog_test(SEXP NSEXP, SEXP adSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type N(NSEXP);
-    demog_test(N);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type ad(adSEXP);
+    demog_test(N, ad);
     return R_NilValue;
+END_RCPP
+}
+// weighted_sample
+double weighted_sample(std::vector<double>& weights);
+RcppExport SEXP _siR_weighted_sample(SEXP weightsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::vector<double>& >::type weights(weightsSEXP);
+    rcpp_result_gen = Rcpp::wrap(weighted_sample(weights));
+    return rcpp_result_gen;
 END_RCPP
 }
 // ibm_closed_sir_rcpp
@@ -50,7 +62,8 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_siR_demog_test", (DL_FUNC) &_siR_demog_test, 1},
+    {"_siR_demog_test", (DL_FUNC) &_siR_demog_test, 2},
+    {"_siR_weighted_sample", (DL_FUNC) &_siR_weighted_sample, 1},
     {"_siR_ibm_closed_sir_rcpp", (DL_FUNC) &_siR_ibm_closed_sir_rcpp, 6},
     {"_siR_ibm_het", (DL_FUNC) &_siR_ibm_het, 7},
     {NULL, NULL, 0}
