@@ -1,0 +1,20 @@
+#include <Rcpp.h>
+#include "helper.h"
+
+//' @export
+// [[Rcpp::export]]
+double weighted_sample(std::vector<double> &weights){
+  double sum_of_weight = 0;
+  for(unsigned int i = 0; i < weights.size(); i++) {
+    sum_of_weight += weights[i];
+  }
+
+  double rnd = R::runif(0, sum_of_weight);
+  for(unsigned int i = 0; i < weights.size(); i++) {
+    if(rnd < weights[i])
+      return i;
+    rnd -= weights[i];
+  }
+  assert(!"should never get here");
+  return 1.0;
+}
