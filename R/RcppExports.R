@@ -2,13 +2,18 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #' @export
-demog_test <- function(N, ad) {
-    invisible(.Call('_siR_demog_test', PACKAGE = 'siR', N, ad))
+demog_test <- function(N, agedist, time) {
+    invisible(.Call('_siR_demog_test', PACKAGE = 'siR', N, agedist, time))
 }
 
 #' @export
 weighted_sample <- function(weights) {
     .Call('_siR_weighted_sample', PACKAGE = 'siR', weights)
+}
+
+#' @export
+seq_cpp <- function(from, to, by) {
+    .Call('_siR_seq_cpp', PACKAGE = 'siR', from, to, by)
 }
 
 #' ibm_closed_sir_rcpp 1

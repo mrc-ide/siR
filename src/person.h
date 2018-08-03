@@ -6,20 +6,25 @@
 class Person{
   public:
     // Default constructor
-    Person();
+    Person(double &t);
 
     // Overload constructor
-    Person(std::vector<double> &agedist, double prop_f);
+    Person(double &t, std::vector<double> &agedist, double prop_f);
 
     // Draw sex of individual
     std::string attribute_sex(double prop_f = 0.5);
 
     // Get function(s)
     std::string get_sex() const;
-    double get_age() const;
+    double get_age(double &t) const;
+    double get_death_time() const;
+
+    // Edit function(s)
+
 
   private:
-    double age;
+    double birth_time;
+    double death_time;
     std::string sex;
 };
 

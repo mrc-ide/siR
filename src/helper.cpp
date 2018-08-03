@@ -18,3 +18,20 @@ double weighted_sample(std::vector<double> &weights){
   assert(!"should never get here");
   return 1.0;
 }
+
+//' @export
+// [[Rcpp::export]]
+std::vector<double> seq_cpp(double from, double to, double by){
+  std::vector<double> outseq;
+  double cur = from;
+  outseq.push_back(cur);
+
+  while(cur <= (to - by)){
+    cur += by;
+    outseq.push_back(cur);
+  }
+
+  return outseq;
+}
+
+

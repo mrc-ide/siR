@@ -6,13 +6,14 @@
 using namespace Rcpp;
 
 // demog_test
-void demog_test(int N, Rcpp::NumericVector ad);
-RcppExport SEXP _siR_demog_test(SEXP NSEXP, SEXP adSEXP) {
+void demog_test(int N, std::vector<double> agedist, std::vector<double> time);
+RcppExport SEXP _siR_demog_test(SEXP NSEXP, SEXP agedistSEXP, SEXP timeSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type N(NSEXP);
-    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type ad(adSEXP);
-    demog_test(N, ad);
+    Rcpp::traits::input_parameter< std::vector<double> >::type agedist(agedistSEXP);
+    Rcpp::traits::input_parameter< std::vector<double> >::type time(timeSEXP);
+    demog_test(N, agedist, time);
     return R_NilValue;
 END_RCPP
 }
@@ -24,6 +25,19 @@ BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::vector<double>& >::type weights(weightsSEXP);
     rcpp_result_gen = Rcpp::wrap(weighted_sample(weights));
+    return rcpp_result_gen;
+END_RCPP
+}
+// seq_cpp
+std::vector<double> seq_cpp(double from, double to, double by);
+RcppExport SEXP _siR_seq_cpp(SEXP fromSEXP, SEXP toSEXP, SEXP bySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type from(fromSEXP);
+    Rcpp::traits::input_parameter< double >::type to(toSEXP);
+    Rcpp::traits::input_parameter< double >::type by(bySEXP);
+    rcpp_result_gen = Rcpp::wrap(seq_cpp(from, to, by));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -62,8 +76,9 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_siR_demog_test", (DL_FUNC) &_siR_demog_test, 2},
+    {"_siR_demog_test", (DL_FUNC) &_siR_demog_test, 3},
     {"_siR_weighted_sample", (DL_FUNC) &_siR_weighted_sample, 1},
+    {"_siR_seq_cpp", (DL_FUNC) &_siR_seq_cpp, 3},
     {"_siR_ibm_closed_sir_rcpp", (DL_FUNC) &_siR_ibm_closed_sir_rcpp, 6},
     {"_siR_ibm_het", (DL_FUNC) &_siR_ibm_het, 7},
     {NULL, NULL, 0}
