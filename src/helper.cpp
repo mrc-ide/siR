@@ -3,14 +3,14 @@
 
 //' @export
 // [[Rcpp::export]]
-double weighted_sample(std::vector<double> &weights){
+double weighted_sample(std::vector<double> &weights, int istart){
   double sum_of_weight = 0;
-  for(unsigned int i = 0; i < weights.size(); i++) {
+  for(unsigned int i = istart; i < weights.size(); i++) {
     sum_of_weight += weights[i];
   }
 
   double rnd = R::runif(0, sum_of_weight);
-  for(unsigned int i = 0; i < weights.size(); i++) {
+  for(unsigned int i = istart; i < weights.size(); i++) {
     if(rnd < weights[i])
       return i;
     rnd -= weights[i];
