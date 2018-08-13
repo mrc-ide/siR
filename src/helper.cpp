@@ -3,7 +3,7 @@
 
 //' @export
 // [[Rcpp::export]]
-double weighted_sample(std::vector<double> &weights, int istart){
+unsigned int weighted_sample(std::vector<double> &weights, unsigned int istart){
   double sum_of_weight = 0;
   for(unsigned int i = istart; i < weights.size(); i++) {
     sum_of_weight += weights[i];
@@ -16,7 +16,7 @@ double weighted_sample(std::vector<double> &weights, int istart){
     rnd -= weights[i];
   }
   assert(!"should never get here");
-  return 1.0;
+  return 1;
 }
 
 //' @export

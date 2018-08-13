@@ -6,25 +6,28 @@
 using namespace Rcpp;
 
 // demog_test
-void demog_test(int N, std::vector<double> agedist, std::vector<double> time);
-RcppExport SEXP _siR_demog_test(SEXP NSEXP, SEXP agedistSEXP, SEXP timeSEXP) {
+std::vector<int> demog_test(int N, std::vector<double> time, std::vector<double> age_distribution, std::vector<double> life_distribution);
+RcppExport SEXP _siR_demog_test(SEXP NSEXP, SEXP timeSEXP, SEXP age_distributionSEXP, SEXP life_distributionSEXP) {
 BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type N(NSEXP);
-    Rcpp::traits::input_parameter< std::vector<double> >::type agedist(agedistSEXP);
     Rcpp::traits::input_parameter< std::vector<double> >::type time(timeSEXP);
-    demog_test(N, agedist, time);
-    return R_NilValue;
+    Rcpp::traits::input_parameter< std::vector<double> >::type age_distribution(age_distributionSEXP);
+    Rcpp::traits::input_parameter< std::vector<double> >::type life_distribution(life_distributionSEXP);
+    rcpp_result_gen = Rcpp::wrap(demog_test(N, time, age_distribution, life_distribution));
+    return rcpp_result_gen;
 END_RCPP
 }
 // weighted_sample
-double weighted_sample(std::vector<double>& weights);
-RcppExport SEXP _siR_weighted_sample(SEXP weightsSEXP) {
+unsigned int weighted_sample(std::vector<double>& weights, unsigned int istart);
+RcppExport SEXP _siR_weighted_sample(SEXP weightsSEXP, SEXP istartSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::vector<double>& >::type weights(weightsSEXP);
-    rcpp_result_gen = Rcpp::wrap(weighted_sample(weights));
+    Rcpp::traits::input_parameter< unsigned int >::type istart(istartSEXP);
+    rcpp_result_gen = Rcpp::wrap(weighted_sample(weights, istart));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -76,8 +79,8 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_siR_demog_test", (DL_FUNC) &_siR_demog_test, 3},
-    {"_siR_weighted_sample", (DL_FUNC) &_siR_weighted_sample, 1},
+    {"_siR_demog_test", (DL_FUNC) &_siR_demog_test, 4},
+    {"_siR_weighted_sample", (DL_FUNC) &_siR_weighted_sample, 2},
     {"_siR_seq_cpp", (DL_FUNC) &_siR_seq_cpp, 3},
     {"_siR_ibm_closed_sir_rcpp", (DL_FUNC) &_siR_ibm_closed_sir_rcpp, 6},
     {"_siR_ibm_het", (DL_FUNC) &_siR_ibm_het, 7},

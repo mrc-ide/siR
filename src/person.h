@@ -1,31 +1,23 @@
 #ifndef person_h
 #define person_h
 
-#include <string>
 
 class Person{
   public:
     // Default constructor
-    Person(double &t);
+    Person(double &time, double &prop_f, std::vector<double> &prob_survive, std::vector<double> &prob_death);
 
-    // Overload constructor
-    Person(double &t, std::vector<double> &agedist, double prop_f);
+    // New birth
+    void new_birth(double &t, double &prop_f, std::vector<double> &prob_death);
 
     // Draw sex of individual
     std::string attribute_sex(double prop_f = 0.5);
 
-    // Get function(s)
-    std::string get_sex() const;
-    double get_age(double &t) const;
-    double get_death_time() const;
-
-    // Edit function(s)
-
-
-  private:
-    double birth_time;
-    double death_time;
+    // Attributes
+    double birth_date;
+    int lifespan;
     std::string sex;
+
 };
 
 #endif

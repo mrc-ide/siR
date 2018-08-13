@@ -7,52 +7,58 @@
 
 //' @export
 // [[Rcpp::export]]
-void demog_test(int N, std::vector<double> agedist, std::vector<double> time){
+std::vector<int> demog_test(int N, std::vector<double> time,
+                            std::vector<double> age_distribution, std::vector<double> life_distribution){
+  Rcpp::Rcout << "START" << std::endl;
 
+  // Initialise the time step
+  int t = 0;
+  /// ***** Need to make sure it can work with non-interger time steps
+  double dt = 1;
+  // Initialise propoprtion of birth that are female
+  double prop_f = 0.5;
+  // Initialise a pointer to a person
+  Person *p1;
   // Initialise death scheduler
-  std::vector<std::list<Person* > > death_scheduler(time.size());
+  ////// **** Need to fix this so there are check again length
+  std::vector<std::vector<Person* > > death_scheduler(time.size() + 100000);
+  // Initialise a death tracker
+  std::vector<int> deaths(time.size());
 
-  double dt = 0.1;
-  // Initialise vector of people
-  std::vector<Person> Pop;
-  // Populate from given age distribution and 50:50 sex ratio
-  for(int i = 0; i < N; i++){
-    Person p1 = Person(time[0], agedist, 0.5);
+  // Initialise population
+  std::vector<Person* > Pop;
+  // Populate population
+  for(unsigned int i = 0; i < N; i++){
+    p1 = new Person(time[t], prop_f, age_distribution, life_distribution);
     Pop.push_back(p1);
-    death_scheduler[(Pop[i].get_death_time() - time[0]) / dt].push_back(&Pop[i]);
-  }
-
-
-  for(unsigned int t = 0; t < death_scheduler.size(); t++){
-    if(death_scheduler[t].size() > 0){
-      for(std::list<Person* >::iterator it = death_scheduler[t].begin();
-          it != death_scheduler[t].end(); ++it){
-        Person p1 = Person(time[1], agedist, 0.5);
-        // Assign a new person to the memory that the it pointer points to
-        **it = p1;
-      }
+    // If death occurs within timeframe, add to scheduler.
+    if(p1->lifespan < time.back()){
+      ////// ***** Need to think about the bets way for this # steps to be calcualted
+      int t1 = int(p1->lifespan);
+      death_scheduler[t1].push_back(p1);
     }
   }
 
-  // double t = 1.0;
-  // for(unsigned int i = 0; i < Pop.size(); i++){
-  //   Rcpp::Rcout << "Person " << i + 1 << std::endl;
-  //   Rcpp::Rcout << "Person" << i + 1 << " Age is " << Pop[i].get_age(t) << std::endl;
-  //   Rcpp::Rcout << "Person" << i + 1 << " death time is " << Pop[i].get_death_time() << std::endl;
-  // }
+  // Cycle through time steps
+   for(int t = 0; t < time.size(); t++){
   //
-  // t = 100;
-  // for(unsigned int i = 0; i < Pop.size(); i++){
-  //   Rcpp::Rcout << "Person " << i + 1 << std::endl;
-  //   Rcpp::Rcout << "Person" << i + 1 << " Age is " << Pop[i].get_age(t) << std::endl;
-  // }
+     deaths[t] = death_scheduler[t].size();
+  //   // Scheduled deaths
+     if(death_scheduler[t].size() > 0){
+   // Rcpp::Rcout << death_scheduler[t].size() << " deaths in timestep " << t << std::endl;
+      for(int d = 0; d < death_scheduler[t].size(); d++){
+  //       // Replace the dead person
+         death_scheduler[t][d]->new_birth(time[t], prop_f, life_distribution);
+  //       // Schedule the new person's death if within time window
+         //if((time[t] + death_scheduler[t][d]->lifespan) < time.back()){
+           int t1 = int((time[t] + death_scheduler[t][d]->lifespan) / dt);
+           death_scheduler[t1].push_back(death_scheduler[t][d]);
+         //}
+       }
+     }
+   }
 
-  //for(unsigned int i = 0; i < Pop.size(); i++){
-  // Rcpp::Rcout << "Person " << i + 1 << std::endl;
-  //Rcpp::Rcout << "Sex is " << Pop[i].get_sex() << std::endl;
-  //Rcpp::Rcout << "Age is " << Pop[i].get_age() << std::endl;
-  //}
-
+  return deaths;
 }
 
 

@@ -1,18 +1,22 @@
 #include <Rcpp.h>
-#include <string>
 #include "person.h"
 #include "helper.h"
+#include "string.h"
 
-Person::Person(double &t){
-  birth_time = t;
-  sex = Person::attribute_sex();
-  death_time = t + 10;
-}
+Person::Person(double &time, double &prop_f, std::vector<double> &prob_survive, std::vector<double> &prob_death){
+  // Draw year age
+  int age = weighted_sample(prob_survive, 0);
+  //Rcpp::Rcout << "Current_age = " <<  age << std::endl;
+  // Draw day age
+  //int day = int(R::runif(1, 366));
 
-Person::Person(double &t, std::vector<double> &agedist, double prop_f){
-  birth_time = t - weighted_sample(agedist);
+  birth_date = time - age;
+  int death_age = weighted_sample(prob_death, age);
+  //Rcpp::Rcout << "Age of death = " << death_age << std::endl;
+  //Rcpp::Rcout << "Years to live = " << death_age - age << std::endl;
+  lifespan = death_age - age;//(death_age * 365 + day) - (365 * age + day) ;
+  //Rcpp::Rcout << "ls " << (lifespan - day) / 365 << std::endl;
   sex = Person::attribute_sex(prop_f);
-  death_time = t + 10;
 }
 
 std::string Person::attribute_sex(double prop_f){
@@ -23,16 +27,12 @@ std::string Person::attribute_sex(double prop_f){
   return s;
 }
 
-std::string Person::get_sex() const {
-  return sex;
+void Person::new_birth(double &time, double &prop_f, std::vector<double> &prob_death){
+  birth_date = time;
+
+  // Draw day age
+  //int day = int(R::runif(1, 366));
+  lifespan = weighted_sample(prob_death, 0);// * 365 + day;
+  //Rcpp::Rcout << "NEw person ls = " <<  lifespan  << std::endl;
+  sex = Person::attribute_sex(prop_f);
 }
-
-double Person::get_age(double &t) const {
-  return t - birth_time;
-}
-
-double Person::get_death_time() const {
-  return death_time;
-}
-
-
