@@ -2,20 +2,20 @@
 #include "person.h"
 #include "helper.h"
 #include "string.h"
+#include "time.h"
 
-Person::Person(double &time, double &prop_f, std::vector<double> &prob_survive, std::vector<double> &prob_death){
-  // Draw year age
-  int age = weighted_sample(prob_survive, 0);
-  //Rcpp::Rcout << "Current_age = " <<  age << std::endl;
-  // Draw day age
-  //int day = int(R::runif(1, 366));
-
-  birth_date = time - age;
-  int death_age = weighted_sample(prob_death, age);
-  //Rcpp::Rcout << "Age of death = " << death_age << std::endl;
-  //Rcpp::Rcout << "Years to live = " << death_age - age << std::endl;
-  lifespan = death_age - age;//(death_age * 365 + day) - (365 * age + day) ;
-  //Rcpp::Rcout << "ls " << (lifespan - day) / 365 << std::endl;
+Person::Person(int &t, int &substep, double &prop_f, std::vector<double> &prob_survive, std::vector<double> &prob_death){
+  // Birth time
+  int year = weighted_sample(prob_survive, 0);
+  int day = int(R::runif(1, 366));
+  int age =  (year * 365) - day;
+  birth_time = t - days_to_steps(age, substep);
+  // Rcpp::Rcout << "Birth time = " << birth_time << std::endl;
+  // Death time
+  year = weighted_sample(prob_death, year);
+  death_time = birth_time + years_to_steps(year, substep);
+  // Rcpp::Rcout << "Death time = " << death_time << std::endl;
+  // Sex
   sex = Person::attribute_sex(prop_f);
 }
 
@@ -27,12 +27,11 @@ std::string Person::attribute_sex(double prop_f){
   return s;
 }
 
-void Person::new_birth(double &time, double &prop_f, std::vector<double> &prob_death){
-  birth_date = time;
-
-  // Draw day age
-  //int day = int(R::runif(1, 366));
-  lifespan = weighted_sample(prob_death, 0);// * 365 + day;
-  //Rcpp::Rcout << "NEw person ls = " <<  lifespan  << std::endl;
+void Person::new_birth(int &t, int &substep, double &prop_f, std::vector<double> &prob_death){
+  birth_time = t;
+  int year = weighted_sample(prob_death, 0);
+  int day = int(R::runif(1, 366));
+  int lifespan = (year * 365) + day;
+  death_time = birth_time + days_to_steps(lifespan, substep);
   sex = Person::attribute_sex(prop_f);
 }

@@ -6,16 +6,17 @@
 using namespace Rcpp;
 
 // demog_test
-std::vector<int> demog_test(int N, std::vector<double> time, std::vector<double> age_distribution, std::vector<double> life_distribution);
-RcppExport SEXP _siR_demog_test(SEXP NSEXP, SEXP timeSEXP, SEXP age_distributionSEXP, SEXP life_distributionSEXP) {
+std::vector<int> demog_test(int N, int days, int substep, std::vector<double> age_distribution, std::vector<double> life_distribution);
+RcppExport SEXP _siR_demog_test(SEXP NSEXP, SEXP daysSEXP, SEXP substepSEXP, SEXP age_distributionSEXP, SEXP life_distributionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type N(NSEXP);
-    Rcpp::traits::input_parameter< std::vector<double> >::type time(timeSEXP);
+    Rcpp::traits::input_parameter< int >::type days(daysSEXP);
+    Rcpp::traits::input_parameter< int >::type substep(substepSEXP);
     Rcpp::traits::input_parameter< std::vector<double> >::type age_distribution(age_distributionSEXP);
     Rcpp::traits::input_parameter< std::vector<double> >::type life_distribution(life_distributionSEXP);
-    rcpp_result_gen = Rcpp::wrap(demog_test(N, time, age_distribution, life_distribution));
+    rcpp_result_gen = Rcpp::wrap(demog_test(N, days, substep, age_distribution, life_distribution));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -77,13 +78,52 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// steps
+int steps(int& days, int& substep);
+RcppExport SEXP _siR_steps(SEXP daysSEXP, SEXP substepSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int& >::type days(daysSEXP);
+    Rcpp::traits::input_parameter< int& >::type substep(substepSEXP);
+    rcpp_result_gen = Rcpp::wrap(steps(days, substep));
+    return rcpp_result_gen;
+END_RCPP
+}
+// years_to_steps
+int years_to_steps(int& years, int& substep);
+RcppExport SEXP _siR_years_to_steps(SEXP yearsSEXP, SEXP substepSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int& >::type years(yearsSEXP);
+    Rcpp::traits::input_parameter< int& >::type substep(substepSEXP);
+    rcpp_result_gen = Rcpp::wrap(years_to_steps(years, substep));
+    return rcpp_result_gen;
+END_RCPP
+}
+// days_to_steps
+int days_to_steps(int& days, int& substep);
+RcppExport SEXP _siR_days_to_steps(SEXP daysSEXP, SEXP substepSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int& >::type days(daysSEXP);
+    Rcpp::traits::input_parameter< int& >::type substep(substepSEXP);
+    rcpp_result_gen = Rcpp::wrap(days_to_steps(days, substep));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_siR_demog_test", (DL_FUNC) &_siR_demog_test, 4},
+    {"_siR_demog_test", (DL_FUNC) &_siR_demog_test, 5},
     {"_siR_weighted_sample", (DL_FUNC) &_siR_weighted_sample, 2},
     {"_siR_seq_cpp", (DL_FUNC) &_siR_seq_cpp, 3},
     {"_siR_ibm_closed_sir_rcpp", (DL_FUNC) &_siR_ibm_closed_sir_rcpp, 6},
     {"_siR_ibm_het", (DL_FUNC) &_siR_ibm_het, 7},
+    {"_siR_steps", (DL_FUNC) &_siR_steps, 2},
+    {"_siR_years_to_steps", (DL_FUNC) &_siR_years_to_steps, 2},
+    {"_siR_days_to_steps", (DL_FUNC) &_siR_days_to_steps, 2},
     {NULL, NULL, 0}
 };
 

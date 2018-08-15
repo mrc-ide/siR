@@ -2,8 +2,8 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #' @export
-demog_test <- function(N, time, age_distribution, life_distribution) {
-    .Call('_siR_demog_test', PACKAGE = 'siR', N, time, age_distribution, life_distribution)
+demog_test <- function(N, days, substep, age_distribution, life_distribution) {
+    .Call('_siR_demog_test', PACKAGE = 'siR', N, days, substep, age_distribution, life_distribution)
 }
 
 #' @export
@@ -29,5 +29,20 @@ ibm_closed_sir_rcpp <- function(sigma = 2, beta = 4, N = 1000L, i0 = 1L, t_final
 #' @export
 ibm_het <- function(sigma = 2, beta = 4, N = 1000L, i0 = 1L, times = 0L, dt = 0.1, het = FALSE) {
     .Call('_siR_ibm_het', PACKAGE = 'siR', sigma, beta, N, i0, times, dt, het)
+}
+
+#' @export
+steps <- function(days, substep) {
+    .Call('_siR_steps', PACKAGE = 'siR', days, substep)
+}
+
+#' @export
+years_to_steps <- function(years, substep) {
+    .Call('_siR_years_to_steps', PACKAGE = 'siR', years, substep)
+}
+
+#' @export
+days_to_steps <- function(days, substep) {
+    .Call('_siR_days_to_steps', PACKAGE = 'siR', days, substep)
 }
 
