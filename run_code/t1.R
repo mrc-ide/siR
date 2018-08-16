@@ -15,7 +15,6 @@ for(i in 0:1000){
 }
 a2 <- as.vector(table(age))
 a2 <- a2 / sum(a2)
-a2 = a2 / max(a2)
 
 system.time(t1 <- demog_test(1000000, 365 * 200, 1, a2, prob_death))
 # plot(t1, t = "l")

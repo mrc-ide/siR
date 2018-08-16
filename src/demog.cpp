@@ -18,8 +18,6 @@ std::vector<int> demog_test(int N, int days, int substep,
   // Rcpp::Rcout << "Max T = " << maxt << std::endl;
   // Initialise propoprtion of births that are female
   double prop_f = 0.5;
-  // Initialise a pointer to a person
-  Person *p1;
 
   // Initialise death scheduler
   std::vector<std::vector<Person* > > death_scheduler(maxt);
@@ -33,12 +31,9 @@ std::vector<int> demog_test(int N, int days, int substep,
   for(int i = 0; i < N; i++){
     Person np = Person(t, substep, prop_f, age_distribution, life_distribution);
     Pop.push_back(np);
-    p1 = &Pop[i];
     // If death occurs within timeframe, add to scheduler.
-    if(p1->death_time < maxt){
-      death_scheduler[p1->death_time].push_back(p1);
-      //Rcpp::Rcout << "A " << p1->death_time << std::endl;
-      //Rcpp::Rcout << "B " << death_scheduler[p1->death_time].back()->death_time << std::endl;
+    if(np.death_time < maxt){
+      death_scheduler[np.death_time].push_back(&Pop[i]);
     }
   }
 
