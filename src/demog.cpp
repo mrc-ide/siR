@@ -19,7 +19,6 @@ std::vector<int> demog_test(int N, int days, int substep,
   // Initialise propoprtion of births that are female
   double prop_f = 0.5;
   // Initialise a pointer to a person
-  Person p0;
   Person *p1;
 
   // Initialise death scheduler
@@ -28,19 +27,18 @@ std::vector<int> demog_test(int N, int days, int substep,
   std::vector<int> deaths(maxt);
 
   // Initialise population
-  //std::vector<Person* > Pop;
   std::vector<Person> Pop;
+  Pop.reserve(N);
   // Populate Pop vector
   for(int i = 0; i < N; i++){
-    // Calling "new" looks for a block of contiguous memory large enough to hold the object
-      // (in this case a Person), and returns a pointer to that object (p1), it then calls the
-      // constructor associated with Person (to create a new person).
-    //p1 = new Person(t, substep, prop_f, age_distribution, life_distribution);
-
-    Pop.push_back(p1);
+    Person np = Person(t, substep, prop_f, age_distribution, life_distribution);
+    Pop.push_back(np);
+    p1 = &Pop[i];
     // If death occurs within timeframe, add to scheduler.
     if(p1->death_time < maxt){
       death_scheduler[p1->death_time].push_back(p1);
+      //Rcpp::Rcout << "A " << p1->death_time << std::endl;
+      //Rcpp::Rcout << "B " << death_scheduler[p1->death_time].back()->death_time << std::endl;
     }
   }
 
