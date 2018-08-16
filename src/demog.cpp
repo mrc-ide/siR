@@ -10,35 +10,32 @@
 // [[Rcpp::export]]
 std::vector<int> demog_test(int N, int days, int substep,
                             std::vector<double> age_distribution, std::vector<double> life_distribution){
-  Rcpp::Rcout << "START" << std::endl;
 
-  // Initialise the time step
+  // Initialise model time
   int t = 0;
+  // Maximum time steps
   int maxt = steps(days, substep);
-  // Rcpp::Rcout << "Max T = " << maxt << std::endl;
-  // Initialise propoprtion of births that are female
+  // Propoprtion of births that are female
   double prop_f = 0.5;
-  // Initialise a pointer to a person
-  Person *p1;
 
-  // Initialise death scheduler
+  // Death scheduler
   std::vector<std::vector<Person* > > death_scheduler(maxt);
-  // Initialise a death tracker
+  // Death tracker
   std::vector<int> deaths(maxt);
 
-  // Initialise population
-  std::vector<Person* > Pop;
+  // Population
+  std::vector<Person> Pop;
+  Pop.reserve(N);
 
   // Populate Pop vector
   for(int i = 0; i < N; i++){
-    // Calling "new" looks for a block of contiguous memory large enough to hold the object
-      // (in this case a Person), and returns a pointer to that object (p1), it then calls the
-      // constructor associated with Person (to create a new person).
-    p1 = new Person(t, substep, prop_f, age_distribution, life_distribution);
-    Pop.push_back(p1);
-    // If death occurs within timeframe, add to scheduler.
-    if(p1->death_time < maxt){
-      death_scheduler[p1->death_time].push_back(p1);
+    // New person
+    Person np = Person(t, substep, prop_f, age_distribution, life_distribution);
+    // Add to pop vector
+    Pop.push_back(np);
+    // If death occurs within timeframe, add a pointer to the person to scheduler.
+    if(np.death_time < maxt){
+      death_scheduler[np.death_time].push_back(&Pop[i]);
     }
   }
 
@@ -46,15 +43,12 @@ std::vector<int> demog_test(int N, int days, int substep,
   for(int t = 0; t < maxt; t++){
     deaths[t] = death_scheduler[t].size();
     // Scheduled deaths
-    if(death_scheduler[t].size() > 0){
-      // Rcpp::Rcout << death_scheduler[t].size() << " deaths in timestep " << t << std::endl;
-      for(unsigned int d = 0; d < death_scheduler[t].size(); d++){
-        // Replace the dead person
-        death_scheduler[t][d]->new_birth(t, substep, prop_f, life_distribution);
-        // Schedule the new person's death if within time window
-        if(death_scheduler[t][d]->death_time < maxt){
-          death_scheduler[death_scheduler[t][d]->death_time].push_back(death_scheduler[t][d]);
-        }
+    for(unsigned int d = 0; d < death_scheduler[t].size(); d++){
+      // Replace the dead person
+      death_scheduler[t][d]->new_birth(t, substep, prop_f, life_distribution);
+      // Schedule the new person's death if within time window
+      if(death_scheduler[t][d]->death_time < maxt){
+        death_scheduler[death_scheduler[t][d]->death_time].push_back(death_scheduler[t][d]);
       }
     }
   }
