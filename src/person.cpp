@@ -21,10 +21,10 @@ Person::Person(int &t, int &substep, double &prop_f, std::vector<double> &prob_s
   sex = Person::attribute_sex(prop_f);
 }
 
-std::string Person::attribute_sex(double prop_f){
-  std::string s = "f";
+char Person::attribute_sex(double prop_f){
+  char s = 'f';
   if(R::runif(0, 1) > prop_f){
-    s = "m";
+    s = 'm';
   }
   return s;
 }
