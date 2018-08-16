@@ -1,8 +1,29 @@
 devtools::load_all()
 
-t1 <- demog_test(100000, 365 * 100, 1, prob_survive, prob_death)
-plot(t1, t = "l")
+### Equilibrium age distribution
+N <- 100000
+age <- rep(0, 100000)
+death <- sample(0:89, N, prob = prob_death, replace = TRUE)
+for(i in 0:1000){
+  if(i %% 100 == 0){
+    print(i)
+  }
+  index <- age == death
+  age <- age + 1
+  age[index] <- 0
+  death[index] <- sample(0:89, sum(index), prob = prob_death, replace = T)
+}
+a2 <- as.vector(table(age))
+a2 <- a2 / sum(a2)
 
-tcut <- rep(1:100, each = 3650)
+t1 <- demog_test(100000, 365 * 100, 1, a2, prob_death)
+# plot(t1, t = "l")
+
+tcut <- rep(1:100, each = 365)
 ann_Death <- tapply(t1, tcut, sum)
-plot(ann_Death)
+plot(ann_Death )
+
+# Detahs over the first year weird pattern
+t2 <- t1[1:(100*365)]
+plot(t2)
+which(t2 > 1000)

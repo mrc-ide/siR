@@ -12,7 +12,9 @@ Person::Person(int &t, int &substep, double &prop_f, std::vector<double> &prob_s
   birth_time = t - days_to_steps(age, substep);
   // Rcpp::Rcout << "Birth time = " << birth_time << std::endl;
   // Death time
+  //Rcpp::Rcout << "Age day = " << day << std::endl;
   year = weighted_sample(prob_death, year);
+  //Rcpp::Rcout << "Death year = " << year << std::endl;
   death_time = birth_time + years_to_steps(year, substep);
   // Rcpp::Rcout << "Death time = " << death_time << std::endl;
   // Sex
