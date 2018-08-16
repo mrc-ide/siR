@@ -16,10 +16,10 @@ for(i in 0:1000){
 a2 <- as.vector(table(age))
 a2 <- a2 / sum(a2)
 
-t1 <- demog_test(100000, 365 * 100, 1, a2, prob_death)
+system.time(t1 <- demog_test(500000, 365 * 1000, 1, a2, prob_death))
 # plot(t1, t = "l")
 
-tcut <- rep(1:100, each = 365)
+tcut <- rep(1:1000, each = 365)
 ann_Death <- tapply(t1, tcut, sum)
 plot(ann_Death )
 
