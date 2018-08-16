@@ -4,10 +4,10 @@
 #include "string.h"
 #include "time.h"
 
-Person::Person(int &t, int &substep, double &prop_f, std::vector<double> &prob_survive, std::vector<double> &prob_death){
+Person::Person(int &t, int &substep, double &prop_f, std::vector<double> &age_dist, std::vector<double> &prob_death){
   // Birth time
-  int year = weighted_sample(prob_survive, 0);
-  int day = int(R::runif(1, 366));
+  int year = weighted_sample(age_dist, 0);
+  int day = int(R::runif(0, 365));
   int age =  (year * 365) - day;
   birth_time = t - days_to_steps(age, substep);
   // Rcpp::Rcout << "Birth time = " << birth_time << std::endl;
@@ -21,10 +21,10 @@ Person::Person(int &t, int &substep, double &prop_f, std::vector<double> &prob_s
   sex = Person::attribute_sex(prop_f);
 }
 
-std::string Person::attribute_sex(double prop_f){
-  std::string s = "f";
+char Person::attribute_sex(double prop_f){
+  char s = 'f';
   if(R::runif(0, 1) > prop_f){
-    s = "m";
+    s = 'm';
   }
   return s;
 }
@@ -32,7 +32,7 @@ std::string Person::attribute_sex(double prop_f){
 void Person::new_birth(int &t, int &substep, double &prop_f, std::vector<double> &prob_death){
   birth_time = t;
   int year = weighted_sample(prob_death, 0);
-  int day = int(R::runif(1, 366));
+  int day = int(R::runif(0, 365));
   int lifespan = (year * 365) + day;
   death_time = birth_time + days_to_steps(lifespan, substep);
   sex = Person::attribute_sex(prop_f);
