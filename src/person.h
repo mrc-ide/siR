@@ -5,7 +5,7 @@
 class Person{
   public:
     // Default constructor
-    Person(int &t, int &substep, double &prop_f, std::vector<double> &prob_survive, std::vector<double> &prob_death);
+    Person(int &t, int &substep, double &prop_f, std::vector<double> &age_dist, std::vector<double> &prob_death);
 
     // New birth
     void new_birth(int &t, int &substep, double &prop_f, std::vector<double> &prob_death);
