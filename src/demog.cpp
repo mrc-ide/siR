@@ -10,7 +10,6 @@
 // [[Rcpp::export]]
 std::vector<int> demog_test(int N, int days, int substep,
                             std::vector<double> age_distribution, std::vector<double> life_distribution){
-  Rcpp::Rcout << "START" << std::endl;
 
   // Initialise the time step
   int t = 0;

@@ -16,14 +16,14 @@ for(i in 0:1000){
 a2 <- as.vector(table(age))
 a2 <- a2 / sum(a2)
 
-system.time(t1 <- demog_test(1000000, 365 * 200, 1, a2, prob_death))
+system.time(t1 <- demog_test(500000, 365 * 1000, 1, a2, prob_death))
 # plot(t1, t = "l")
 
-tcut <- rep(1:200, each = 365)
+tcut <- rep(1:1000, each = 365)
 ann_Death <- tapply(t1, tcut, sum)
 plot(ann_Death )
 
 # Detahs over the first year weird pattern
-t2 <- t1[1:(10*365)]
+t2 <- t1[1:(100*365)]
 plot(t2)
 which(t2 > 1000)
