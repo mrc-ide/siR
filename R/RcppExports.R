@@ -32,6 +32,11 @@ ibm_het <- function(sigma = 2, beta = 4, N = 1000L, i0 = 1L, times = 0L, dt = 0.
 }
 
 #' @export
+ibm_scheduled <- function(sigma, beta, N, i0, days, substep, age_distribution, life_distribution) {
+    .Call('_siR_ibm_scheduled', PACKAGE = 'siR', sigma, beta, N, i0, days, substep, age_distribution, life_distribution)
+}
+
+#' @export
 steps <- function(days, substep) {
     .Call('_siR_steps', PACKAGE = 'siR', days, substep)
 }

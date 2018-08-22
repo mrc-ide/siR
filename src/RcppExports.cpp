@@ -78,6 +78,24 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ibm_scheduled
+Rcpp::List ibm_scheduled(double sigma, double beta, int N, int i0, int days, int substep, std::vector<double> age_distribution, std::vector<double> life_distribution);
+RcppExport SEXP _siR_ibm_scheduled(SEXP sigmaSEXP, SEXP betaSEXP, SEXP NSEXP, SEXP i0SEXP, SEXP daysSEXP, SEXP substepSEXP, SEXP age_distributionSEXP, SEXP life_distributionSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type sigma(sigmaSEXP);
+    Rcpp::traits::input_parameter< double >::type beta(betaSEXP);
+    Rcpp::traits::input_parameter< int >::type N(NSEXP);
+    Rcpp::traits::input_parameter< int >::type i0(i0SEXP);
+    Rcpp::traits::input_parameter< int >::type days(daysSEXP);
+    Rcpp::traits::input_parameter< int >::type substep(substepSEXP);
+    Rcpp::traits::input_parameter< std::vector<double> >::type age_distribution(age_distributionSEXP);
+    Rcpp::traits::input_parameter< std::vector<double> >::type life_distribution(life_distributionSEXP);
+    rcpp_result_gen = Rcpp::wrap(ibm_scheduled(sigma, beta, N, i0, days, substep, age_distribution, life_distribution));
+    return rcpp_result_gen;
+END_RCPP
+}
 // steps
 int steps(int& days, int& substep);
 RcppExport SEXP _siR_steps(SEXP daysSEXP, SEXP substepSEXP) {
@@ -121,6 +139,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_siR_seq_cpp", (DL_FUNC) &_siR_seq_cpp, 3},
     {"_siR_ibm_closed_sir_rcpp", (DL_FUNC) &_siR_ibm_closed_sir_rcpp, 6},
     {"_siR_ibm_het", (DL_FUNC) &_siR_ibm_het, 7},
+    {"_siR_ibm_scheduled", (DL_FUNC) &_siR_ibm_scheduled, 8},
     {"_siR_steps", (DL_FUNC) &_siR_steps, 2},
     {"_siR_years_to_steps", (DL_FUNC) &_siR_years_to_steps, 2},
     {"_siR_days_to_steps", (DL_FUNC) &_siR_days_to_steps, 2},

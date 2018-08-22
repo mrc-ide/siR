@@ -48,6 +48,14 @@ for(i in 1:10){
   lines(t1$R ~ t1$t , col = scales::alpha("orange", 0.5))
 }
 
+for(i in 1:10){
+  t1 <- ibm_scheduled(sigma, beta, N, i0, t_f, 52, age_dist, prob_death)
+  t1 <- lapply(t1, function(x){x[ind]})
+  lines((ind / 52), t1[[1]], col = scales::alpha("deepskyblue", 1))
+  lines((ind / 52), t1[[2]], col = scales::alpha("deepskyblue", 1))
+  lines((ind / 52), t1[[3]] , col = scales::alpha("deepskyblue", 1))
+}
+
 
 det <- odin_closed_sir(N = N, beta = beta, sigma = sigma, i0 = i0, t_final = t_f, dt = dt)
 lines(det$S ~ det$t, col = 'green', lty = 1, lwd = 2)
