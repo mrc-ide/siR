@@ -41,14 +41,16 @@ std::vector<int> demog_test(int N, int days, int substep,
 
   // Cycle through time steps
   for(int t = 0; t < maxt; t++){
-    deaths[t] = death_scheduler[t].size();
-    // Scheduled deaths
-    for(unsigned int d = 0; d < death_scheduler[t].size(); d++){
-      // Replace the dead person
-      death_scheduler[t][d]->new_birth(t, substep, prop_f, life_distribution);
-      // Schedule the new person's death if within time window
-      if(death_scheduler[t][d]->death_time < maxt){
-        death_scheduler[death_scheduler[t][d]->death_time].push_back(death_scheduler[t][d]);
+    if(t % substep == 0){
+      deaths[t] = death_scheduler[t].size();
+      // Scheduled deaths
+      for(unsigned int d = 0; d < death_scheduler[t].size(); d++){
+        // Replace the dead person
+        death_scheduler[t][d]->new_birth(t, substep, prop_f, life_distribution);
+        // Schedule the new person's death if within time window
+        if(death_scheduler[t][d]->death_time < maxt){
+          death_scheduler[death_scheduler[t][d]->death_time].push_back(death_scheduler[t][d]);
+        }
       }
     }
   }
