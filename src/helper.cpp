@@ -33,5 +33,3 @@ std::vector<double> seq_cpp(double from, double to, double by){
 
   return outseq;
 }
-
-

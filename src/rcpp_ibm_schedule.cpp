@@ -81,6 +81,8 @@ Rcpp::List ibm_scheduled(double sigma, double beta, int N, int i0, int days, int
   for(int t = 1; t < maxt; t++){
     // Update the probability of infection
     prob_inf = 1 - exp(-beta * I[t - 1] * N_inverse * substep_inverse);
+
+    // Infect susceptibles
     for (std::list<Person* >::iterator it = susceptible.begin(); it != susceptible.end(); ++it){
      if(R::runif(0, 1) < (prob_inf)){
         running_total_susceptible --;

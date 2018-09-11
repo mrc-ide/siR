@@ -16,6 +16,11 @@ seq_cpp <- function(from, to, by) {
     .Call('_siR_seq_cpp', PACKAGE = 'siR', from, to, by)
 }
 
+#' @export
+exp1 <- function(x) {
+    .Call('_siR_exp1', PACKAGE = 'siR', x)
+}
+
 #' ibm_closed_sir_rcpp 1
 #'
 #' @inheritParams ibm_closed_sir

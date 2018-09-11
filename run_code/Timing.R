@@ -18,7 +18,6 @@ Rcpp_sch <- function(N){
 mb1 <- microbenchmark::microbenchmark(R(5000), Rcpp_basic(5000), Rcpp_het(5000), Rcpp_sch(5000),
                                       R(10000), Rcpp_basic(10000), Rcpp_het(10000), Rcpp_sch(10000),
                                       R(50000), Rcpp_basic(50000), Rcpp_het(50000), Rcpp_sch(50000),
-                                      Rcpp_het(1000000), Rcpp_sch(1000000),
                                       times = 5)
 mb1
 ggplot2::autoplot(mb1)
