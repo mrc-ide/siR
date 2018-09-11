@@ -62,8 +62,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // ibm_het
-Rcpp::List ibm_het(double sigma, double beta, int N, int i0, Rcpp::NumericVector times, double dt, bool het);
-RcppExport SEXP _siR_ibm_het(SEXP sigmaSEXP, SEXP betaSEXP, SEXP NSEXP, SEXP i0SEXP, SEXP timesSEXP, SEXP dtSEXP, SEXP hetSEXP) {
+Rcpp::List ibm_het(double sigma, double beta, int N, int i0, Rcpp::NumericVector times, double dt, bool het, std::vector<double> age_distribution, std::vector<double> life_distribution);
+RcppExport SEXP _siR_ibm_het(SEXP sigmaSEXP, SEXP betaSEXP, SEXP NSEXP, SEXP i0SEXP, SEXP timesSEXP, SEXP dtSEXP, SEXP hetSEXP, SEXP age_distributionSEXP, SEXP life_distributionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -74,7 +74,9 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type times(timesSEXP);
     Rcpp::traits::input_parameter< double >::type dt(dtSEXP);
     Rcpp::traits::input_parameter< bool >::type het(hetSEXP);
-    rcpp_result_gen = Rcpp::wrap(ibm_het(sigma, beta, N, i0, times, dt, het));
+    Rcpp::traits::input_parameter< std::vector<double> >::type age_distribution(age_distributionSEXP);
+    Rcpp::traits::input_parameter< std::vector<double> >::type life_distribution(life_distributionSEXP);
+    rcpp_result_gen = Rcpp::wrap(ibm_het(sigma, beta, N, i0, times, dt, het, age_distribution, life_distribution));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -138,7 +140,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_siR_weighted_sample", (DL_FUNC) &_siR_weighted_sample, 2},
     {"_siR_seq_cpp", (DL_FUNC) &_siR_seq_cpp, 3},
     {"_siR_ibm_closed_sir_rcpp", (DL_FUNC) &_siR_ibm_closed_sir_rcpp, 6},
-    {"_siR_ibm_het", (DL_FUNC) &_siR_ibm_het, 7},
+    {"_siR_ibm_het", (DL_FUNC) &_siR_ibm_het, 9},
     {"_siR_ibm_scheduled", (DL_FUNC) &_siR_ibm_scheduled, 8},
     {"_siR_steps", (DL_FUNC) &_siR_steps, 2},
     {"_siR_years_to_steps", (DL_FUNC) &_siR_years_to_steps, 2},

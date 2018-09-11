@@ -15,6 +15,7 @@ Person::Person(int &t, int &substep, double &prop_f, std::vector<double> &age_di
   death_time = birth_time + years_to_steps(year, substep);
   // Sex
   sex = Person::attribute_sex(prop_f);
+  heterogeneity = 1.0;
 }
 
 char Person::attribute_sex(double prop_f){
@@ -32,4 +33,5 @@ void Person::new_birth(int &t, int &substep, double &prop_f, std::vector<double>
   int lifespan = (year * 365) + day;
   death_time = birth_time + days_to_steps(lifespan, substep);
   sex = Person::attribute_sex(prop_f);
+  heterogeneity = 1.0;
 }

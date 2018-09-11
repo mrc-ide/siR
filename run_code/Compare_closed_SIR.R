@@ -33,7 +33,8 @@ for(i in 1:10){
 }
 
 for(i in 1:10){
-  t1 <- ibm_het(N = N, beta = beta, sigma = sigma, i0 = i0, times = seq(0, t_f, dt), dt = dt)
+  t1 <- ibm_het(N = N, beta = beta, sigma = sigma, i0 = i0, times = seq(0, t_f, dt), dt = dt, het = FALSE,
+                age_distribution = age_dist, life_distribution = prob_death)
   t1 <- lapply(t1, function(x){x[ind]})
   lines(t1$S ~ t1$t, col = scales::alpha("blue", 0.5))
   lines(t1$I ~ t1$t, col = scales::alpha("blue", 0.5))
@@ -41,7 +42,8 @@ for(i in 1:10){
 }
 
 for(i in 1:10){
-  t1 <- ibm_het(N = N, beta = beta, sigma = sigma, i0 = i0, times = seq(0, t_f, dt), dt = dt, het = TRUE)
+  t1 <- ibm_het(N = N, beta = beta, sigma = sigma, i0 = i0, times = seq(0, t_f, dt), dt = dt, het = TRUE,
+                age_distribution = age_dist, life_distribution = prob_death)
   t1 <- lapply(t1, function(x){x[ind]})
   lines(t1$S ~ t1$t, col = scales::alpha("orange", 0.5))
   lines(t1$I ~ t1$t, col = scales::alpha("orange", 0.5))

@@ -17,6 +17,7 @@ class Person{
     int birth_time;
     int death_time;
     char sex;
+    double heterogeneity;
 
 };
 

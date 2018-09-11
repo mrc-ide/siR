@@ -1,10 +1,15 @@
 #include <Rcpp.h>
+#include <string>
+#include <cmath>
 #include "rcpp_ibm_het.h"
-#include "people.h"
+#include "person.h"
+#include "helper.h"
+#include "time.h"
 
 //' @export
 // [[Rcpp::export]]
-Rcpp::List ibm_het(double sigma = 2, double beta = 4, int N = 1000, int i0 = 1, Rcpp::NumericVector times = 0, double dt = 0.1, bool het = false){
+Rcpp::List ibm_het(double sigma, double beta, int N, int i0, Rcpp::NumericVector times, double dt, bool het,
+                   std::vector<double> age_distribution, std::vector<double> life_distribution){
 
   // Intialise variables /////////////////////////////////////////////////////
   double prob_inf;
@@ -13,27 +18,34 @@ Rcpp::List ibm_het(double sigma = 2, double beta = 4, int N = 1000, int i0 = 1, 
   double prob_recover =  1 - exp(-sigma * dt);
   // Convert times to c++ type for consistency
   std::vector<double> t = Rcpp::as< std::vector<double> >(times);
+  int substep = (int)1/dt;
+  double prop_f = 0.5;
   ///////////////////////////////////////////////////////////////////////////
 
   // Initialise the population //////////////////////////////////////////////
-  std::vector<person> pop(N);
-  for(int p = 1; p < N; p++){
-    pop[p].age = R::runif(0, 80);
-    pop[p].heterogeneity = 1;
+  std::vector<Person> pop;
+  pop.reserve(N);
+
+  int temp = 0;
+  // populate pop vector
+  for(int i = 0; i < N; i++){
+    // New person
+    Person np = Person(temp, substep, prop_f, age_distribution, life_distribution);
+    // Add to pop vector
+    pop.push_back(np);
   }
   // Including heteogeneity in infection prob (lower on average than without het)
   if(het){
-    for(int p = 1; p < N; p++){
+    for(int p = 0; p < N; p++){
       pop[p].heterogeneity = R::rbeta(2, 1);
     }
   }
   ////////////////////////////////////////////////////////////////////////////
 
   // Initialise lists of pointers tracking S, I and R ////////////////////////
-  std::list<person* > susceptible;
-  std::list<person* > infected;
-  std::list<person* > recovered;
-
+  std::list<Person* > susceptible;
+  std::list<Person* > infected;
+  std::list<Person* > recovered;
   // Add pointers to all people into susceptible list
   for(int i = 0; i<N; i++){
     susceptible.push_back(&pop[i]);
@@ -42,7 +54,7 @@ Rcpp::List ibm_het(double sigma = 2, double beta = 4, int N = 1000, int i0 = 1, 
   std::vector<int> initial_infected = Rcpp::as< std::vector<int> >(Rcpp::runif(i0, 0, (N - 1)));
   // Remove initial infections from suceptible and add to infected
   int counter = 0;
-  for (std::list<person* >::iterator it = susceptible.begin(); it != susceptible.end(); ++it){
+  for (std::list<Person* >::iterator it = susceptible.begin(); it != susceptible.end(); ++it){
     for(int i = 0; i<i0; i++){
       if(counter == initial_infected[i]){
         infected.push_back(*it);
@@ -73,7 +85,7 @@ Rcpp::List ibm_het(double sigma = 2, double beta = 4, int N = 1000, int i0 = 1, 
     prob_inf = 1 - exp(-beta * I[time - 1] * N_inverse * dt);
 
     // Recoveries (Before infections as infections adds to infected)
-    for (std::list<person* >::iterator it = infected.begin(); it != infected.end(); ++it){
+    for (std::list<Person* >::iterator it = infected.begin(); it != infected.end(); ++it){
       if(R::runif(0, 1) < prob_recover){
         // Add recovered to end to recovered pointer list
         recovered.push_back(*it);
@@ -86,7 +98,7 @@ Rcpp::List ibm_het(double sigma = 2, double beta = 4, int N = 1000, int i0 = 1, 
     }
 
     // Infections
-    for (std::list<person* >::iterator it = susceptible.begin(); it != susceptible.end(); ++it){
+    for (std::list<Person* >::iterator it = susceptible.begin(); it != susceptible.end(); ++it){
       // Probability of infection is population probability * individual heterogeneity
       if(R::runif(0, 1) < (prob_inf * (*it)->heterogeneity)){
         // Add infected to end to infected pointer list
