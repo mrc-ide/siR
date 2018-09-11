@@ -45,17 +45,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// exp1
-double exp1(double x);
-RcppExport SEXP _siR_exp1(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(exp1(x));
-    return rcpp_result_gen;
-END_RCPP
-}
 // ibm_closed_sir_rcpp
 Rcpp::List ibm_closed_sir_rcpp(double sigma, double beta, int N, int i0, int t_final, double dt);
 RcppExport SEXP _siR_ibm_closed_sir_rcpp(SEXP sigmaSEXP, SEXP betaSEXP, SEXP NSEXP, SEXP i0SEXP, SEXP t_finalSEXP, SEXP dtSEXP) {
@@ -148,7 +137,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_siR_demog_test", (DL_FUNC) &_siR_demog_test, 5},
     {"_siR_weighted_sample", (DL_FUNC) &_siR_weighted_sample, 2},
     {"_siR_seq_cpp", (DL_FUNC) &_siR_seq_cpp, 3},
-    {"_siR_exp1", (DL_FUNC) &_siR_exp1, 1},
     {"_siR_ibm_closed_sir_rcpp", (DL_FUNC) &_siR_ibm_closed_sir_rcpp, 6},
     {"_siR_ibm_het", (DL_FUNC) &_siR_ibm_het, 7},
     {"_siR_ibm_scheduled", (DL_FUNC) &_siR_ibm_scheduled, 8},

@@ -15,9 +15,8 @@ Rcpp::List ibm_scheduled(double sigma, double beta, int N, int i0, int days, int
   double prob_inf;
   double N_inverse = 1 / (double) N;
   double substep_inverse = 1 / (double) substep;
-  //Rcpp::Rcout << N_inverse << std::endl;
-  // prob of infection
-  double prob_recover = 1 / (sigma * substep_inverse);
+  // Average duration of infection (in timesteps)
+  double av_dur_infection = 1 / (sigma * substep_inverse);
   // Initialise model time
   int t = 0;
   // Maximum time steps
@@ -30,6 +29,16 @@ Rcpp::List ibm_scheduled(double sigma, double beta, int N, int i0, int days, int
   std::vector<std::vector<Person* > > recover_scheduler(maxt);
   // Infection time
   int infection_time;
+  // Person iterator
+  std::list<Person* >::iterator it;
+  // Integer random draw
+  int random_draw;
+  // Double random draw
+  double rand1;
+  // Recovery scheduler iteration
+  unsigned int r;
+  // General interation
+  int i;
   ///////////////////////////////////////////////////////////////////////////
 
   // Initialise the population //////////////////////////////////////////////
@@ -38,7 +47,7 @@ Rcpp::List ibm_scheduled(double sigma, double beta, int N, int i0, int days, int
   Pop.reserve(N);
 
   // Populate Pop vector
-  for(int i = 0; i < N; i++){
+  for(i = 0; i < N; i++){
     // New person
     Person np = Person(t, substep, prop_f, age_distribution, life_distribution);
     // Add to pop vector
@@ -62,14 +71,11 @@ Rcpp::List ibm_scheduled(double sigma, double beta, int N, int i0, int days, int
   int running_total_recovered = R[0];
   /////////////////////////////////////////////////////////////////////////////
 
-  std::list<Person* >::iterator it;
-  int random_draw;
-  for(int i = 0; i < i0; i++){
+  for(i = 0; i < i0; i++){
     it = susceptible.begin();
-    random_draw =  (int) R::runif(0, susceptible.size()-1);
+    random_draw =  (int) R::runif(0, susceptible.size() - 1);
     std::advance(it, random_draw);
-
-    infection_time = (int) R::rexp(prob_recover);
+    infection_time = (int) R::rexp(av_dur_infection);
     if(infection_time < maxt){
       // Add to recovery scheduler
       recover_scheduler[infection_time].push_back(*it);
@@ -78,20 +84,20 @@ Rcpp::List ibm_scheduled(double sigma, double beta, int N, int i0, int days, int
     susceptible.erase(it);
   }
 
-  for(int t = 1; t < maxt; t++){
+  for(t = 1; t < maxt; t++){
     // Update the probability of infection
-    prob_inf = 1 - exp(-beta * I[t - 1] * N_inverse * substep_inverse);
-
+    prob_inf = I[t - 1] * N_inverse  * beta * substep_inverse;
     // Infect susceptibles
-    for (std::list<Person* >::iterator it = susceptible.begin(); it != susceptible.end(); ++it){
-     if(R::runif(0, 1) < (prob_inf)){
+    for (it = susceptible.begin(); it != susceptible.end(); ++it){
+      rand1 = R::runif(0, 1);
+      if(rand1 < prob_inf){
         running_total_susceptible --;
         running_total_infected ++;
         // Draw infection time
-        infection_time = (int) R::rexp(prob_recover);
-        if((t + infection_time) < maxt){
+        infection_time = t + (int) R::rexp(av_dur_infection);
+        if(infection_time < maxt){
           // Add to recovery scheduler
-          recover_scheduler[t + infection_time].push_back(*it);
+          recover_scheduler[infection_time].push_back(*it);
         }
         // Remove from list of susceptibles
         it = susceptible.erase(it);
@@ -99,7 +105,7 @@ Rcpp::List ibm_scheduled(double sigma, double beta, int N, int i0, int days, int
     }
 
     // Scheduled recoveries
-    for(unsigned int r = 0; r < recover_scheduler[t].size(); r++){
+    for(r = 0; r < recover_scheduler[t].size(); r++){
       running_total_infected --;
       running_total_recovered ++;
     }
