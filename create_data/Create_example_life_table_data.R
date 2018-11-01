@@ -2,62 +2,59 @@
 
 mali_life_table <- read.csv("create_data/Mali_life_table_example.csv")
 
-prob_death <- mali_life_table$P_alive
-prob_death1 <- prob_death / sum(prob_death)
+# Probability of Dying in each age group
+prob_death_raw <- mali_life_table$Dying
+prob_death_raw <- prob_death_raw / sum(prob_death_raw)
+# Age distribution
+age_dist_raw <- mali_life_table$Alive
+age_dist_raw <- age_dist_raw / sum(age_dist_raw)
+# Age bands
+ages_raw <- mali_life_table$Start_year
 
-reps <- c(1, 4, rep(5, 17))
-age_cat <- 0:89
+# Smoothing splines
+sm_death <- smooth.spline(x = ages_raw, y = prob_death_raw, spar = 0.2)
+sm_dist <- smooth.spline(x = ages_raw, y = age_dist_raw, spar = 0.2)
 
-# Fitting smoothing spline for death probability at any age
-library(dplyr)
+# Smoothed
+ages <- 0:89
+prob_death <- predict(sm_death, ages)$y
+age_dist <- predict(sm_dist, ages)$y
 
-sm <- mali_life_table %>%
-  mutate(p = P_alive / sum(P_alive),
-         y = Start_year + reps / 2) %>%
-  select(-Start_year, -P_alive)
-
-sf1 <- smooth.spline(sm$y, sm$p)
-prob_death <- predict(sf1, age_cat)$y
-plot(p1 ~ age_cat)
-points(sm$p ~ sm$y, col = "green", pch  = 19)
-
-# Normalise
-prob_death = prob_death / sum(prob_death)
+# View smoothed outputs
 par(mfrow = c(1, 2))
-plot(prob_death)
-plot(cumsum(prob_death))
+plot(prob_death ~ ages, pch = 19)
+points(prob_death_raw ~ ages_raw, col = "green", pch = 19)
+plot(age_dist ~ ages, pch = 19)
+points(age_dist_raw ~ ages_raw, col = "red", pch = 19)
 
-# Equilibrium age distribution (estimation)
-N <- 1000000
+# standardise
+prob_death <- prob_death / sum(prob_death)
+age_dist <- age_dist / sum(age_dist)
+
+# Equilibrium age distribution (numerical estimation)
+N <- 500000
+ages <- 0:89
 age <- rep(0, N)
-death <- sample(0:89, N, prob = prob_death, replace = TRUE)
-for(i in 0:1000){
+death <- sample(ages, N, prob = prob_death, replace = TRUE)
+for(i in 0:5000){
   index <- age == death
   age <- age + 1
   age[index] <- 0
-  death[index] <- sample(0:89, sum(index), prob = prob_death, replace = T)
+  death[index] <- sample(ages, sum(index), prob = prob_death, replace = T)
 }
-age_dist <- as.vector(table(age))
-age_dist <- age_dist / sum(age_dist)
+age_dist_num <- as.vector(table(age))
+age_dist_num <- age_dist_num / sum(age_dist_num)
 
-par(mfrow = c(1, 2))
-barplot(age_dist, names.arg = age_cat)
-barplot(prob_death, names.arg = age_cat)
+# Equilibrium age distribution (analytical estimate)
+age_dist_ana <- (1 - cumsum(prob_death))
+age_dist_ana <- age_dist_ana / sum(age_dist_ana)
 
+# Plot comparison
+par(mfrow = c(1, 1))
+plot(age_dist_num ~ ages, ylim = c(0, 0.018))
+lines(age_dist ~ ages, col = "red", lwd = 2)
+lines(ages, age_dist_ana, col = "green", lwd = 2)
+
+# Add data for testing
 devtools::use_data(prob_death, overwrite = TRUE)
 devtools::use_data(age_dist, overwrite = TRUE)
-
-
-# Fitting smoothing spline for death probability at any age
-library(dplyr)
-
-sm <- mali_life_table %>%
-  mutate(p = P_alive / sum(P_alive),
-         y = Start_year + reps / 2) %>%
-  select(-Start_year, -P_alive)
-
-sf1 <- smooth.spline(sm$y, sm$p)
-x <- seq(0,90,0.5)
-p1 <- predict(sf1, x)$y
-plot(p1 ~ x)
-points(sm$p ~ sm$y, col = "green", pch  = 19)
