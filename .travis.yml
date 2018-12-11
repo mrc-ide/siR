@@ -8,6 +8,7 @@ r_packages:
   - testthat
 r_github_packages:
   - mrc-ide/odin
+  - mrc-ide/cinterpolate
 after_success:
   - Rscript -e 'library(covr); codecov()'
 notifications:
