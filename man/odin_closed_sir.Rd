@@ -4,8 +4,8 @@
 \alias{odin_closed_sir}
 \title{Closed SIR (ODIN)}
 \usage{
-odin_closed_sir(sigma = 2, beta = 6, N = 1000, i0 = 1, t_final = 100,
-  dt = 0.01)
+odin_closed_sir(sigma = 2, beta = 6, N = 1000, i0 = 1,
+  t_final = 100, dt = 0.01)
 }
 \arguments{
 \item{sigma}{Recovery rate (1 / mean duration of infection)}
@@ -26,4 +26,3 @@ Odin closed SIR model output
 \description{
 Closed SIR (ODIN)
 }
-

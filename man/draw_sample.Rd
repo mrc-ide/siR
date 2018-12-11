@@ -17,4 +17,3 @@ Sampled successes from people
 \description{
 Sample events for a group of individuals from binomial
 }
-

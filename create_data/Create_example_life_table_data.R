@@ -1,6 +1,8 @@
 # Create Age distribution and Death distribution example data
 
 mali_life_table <- read.csv("create_data/Mali_life_table_example.csv")
+t1 <- mali_life_table$Dying / mali_life_table$Alive
+
 
 # Probability of Dying in each age group
 prob_death_raw <- mali_life_table$Dying
@@ -8,8 +10,9 @@ prob_death_raw <- prob_death_raw / sum(prob_death_raw)
 # Age distribution
 age_dist_raw <- mali_life_table$Alive
 age_dist_raw <- age_dist_raw / sum(age_dist_raw)
-# Age bands
-ages_raw <- mali_life_table$Start_year
+# Age bands (mid-point of the age band)
+ages_raw <- mali_life_table$Start_year + (c(1, 4, rep(5, 17)) / 2)
+
 
 # Smoothing splines
 sm_death <- smooth.spline(x = ages_raw, y = prob_death_raw, spar = 0.2)
@@ -57,4 +60,13 @@ lines(ages, age_dist_ana, col = "green", lwd = 2)
 
 # Add data for testing
 devtools::use_data(prob_death, overwrite = TRUE)
+
+## Currently age_dist and age_dist_ana are not at equilibrum when testing_demography.R is run,
+  # BUT ... numerical solution is (or appears to be)
 devtools::use_data(age_dist, overwrite = TRUE)
+devtools::use_data(age_dist_num, overwrite = TRUE)
+devtools::use_data(age_dist_ana, overwrite = TRUE)
+
+
+plot(data.frame(age_dist, age_dist_ana, age_dist_num))
+abline(0,1)

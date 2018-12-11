@@ -4,7 +4,7 @@ Title: Individual-based SIR models in R and Rcpp
 Version: 0.1.0
 Author: Peter Winskill
 Maintainer: Peter Winskill <p.winskill@imperial.ac.uk>
-Description: Exploring the design and running of IBM in R and Rcpp with simple examples
+Description: Exploring the design and running of IBM in R and Rcpp with simple examples. Including demography.
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -12,7 +12,9 @@ LinkingTo: Rcpp
 Imports:
     Rcpp,
     odin
-RoxygenNote: 5.0.1
+Depends:
+    R (>= 2.10)
+RoxygenNote: 6.1.1
 URL: https://github.com/mrc-ide/siR
 BugReports: https://github.com/mrc-ide/siR/issues
 Suggests: testthat

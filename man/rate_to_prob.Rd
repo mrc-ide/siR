@@ -17,4 +17,3 @@ A probability
 \description{
 Convert a rate to a probability
 }
-

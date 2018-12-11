@@ -26,4 +26,3 @@ IBM model output
 \description{
 ibm_closed_sir_rcpp 1
 }
-

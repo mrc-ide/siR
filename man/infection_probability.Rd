@@ -21,4 +21,3 @@ Probability of infection
 \description{
 Calculate the current probability of infection
 }
-
