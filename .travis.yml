@@ -7,10 +7,12 @@ r_packages:
   - covr
   - testthat
 r_github_packages:
+  - r-lib/covr
   - mrc-ide/odin
   - mrc-ide/cinterpolate
+  - richfitz/dde
 after_success:
-  - Rscript -e 'library(covr); codecov()'
+  - Rscript -e 'covr::codecov(quiet = FALSE)
 notifications:
   email: false
   slack: dideimperial:FGpKA1qdJd5D1zicaPrqH0Wj
