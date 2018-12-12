@@ -22,7 +22,7 @@ equilibrium_age_distribution <- function(life_table){
   E = eigen(t(r))
 
   # there should be one Eigenvalue that is zero (up to limit of computational
-    # precision). Find which Eigenvalue this is
+  # precision). Find which Eigenvalue this is
   w <- which.min(abs(E$values))
 
   # the stable solution is the corresponding Eigenvector, suitably normalised
@@ -31,6 +31,24 @@ equilibrium_age_distribution <- function(life_table){
   return(age_stable)
 }
 
+#' Equilibrium age of death
+#'
+#' @inheritParams equilibrium_age_distribution
+#'
+#' @return
+#' @export
+#'
+#' @examples
+equilibrium_age_death <- function(life_table){
+  n <- length(life_table)
+  age_death <- rep(0, n)
+  remaining <- 1
+  for (i in 1:n) {
+    age_death[i] <- remaining * life_table[i]
+    remaining <- remaining * (1 - life_table[i])
+  }
+  return(age_death)
+}
 
 #' Lifetable to transition matrix
 #'
@@ -52,7 +70,7 @@ lifetable_to_transtion_matrix <- function(life_table){
 #' @param probability_of_death Column: "nqx - probability of dying between ages x and x+n"
 #'
 #' @return Smoothed probability of death
-who_to_annual <- function(probability_of_death, spar = 0.2){
+prob_death_who_to_annual <- function(probability_of_death, spar = 0.2){
   start_year <- c(0, 1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85)
   # Age bands (mid-point of the age band)
   age_widths <- c(diff(start_year), 5)
@@ -63,5 +81,8 @@ who_to_annual <- function(probability_of_death, spar = 0.2){
   # All ages
   ages <- 0:89
   # Predicted smoothed death probability for all ages
-  predict(sm_p_death, ages)$y / (rep(age_widths, age_widths))
+  smooth_prob <- predict(sm_p_death, ages)$y / (rep(age_widths, age_widths))
+  # Final age group must have prob = 1
+  smooth_prob[length(smooth_prob)] <- 1
+  return(smooth_prob)
 }
