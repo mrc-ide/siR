@@ -8,10 +8,11 @@ Person::Person(int &t, int &substep, double &prop_f, std::vector<double> &age_di
   // Birth time
   int year = weighted_sample(age_dist, 0);
   int day = int(R::runif(0, 365));
-  int age =  (year * 365) - day;
+  int age =  (year * 365) + day;
   birth_time = t - days_to_steps(age, substep);
+
   // Death time
-  year = weighted_sample(prob_death, year);
+  int death_year = weighted_sample(prob_death, year);
   death_time = birth_time + years_to_steps(year, substep);
   // Sex
   sex = Person::attribute_sex(prop_f);
@@ -35,3 +36,9 @@ void Person::new_birth(int &t, int &substep, double &prop_f, std::vector<double>
   sex = Person::attribute_sex(prop_f);
   heterogeneity = 1.0;
 }
+
+Person2::Person2(int birth_t, int death_t){
+  birth = birth_t;
+  death = death_t;
+}
+

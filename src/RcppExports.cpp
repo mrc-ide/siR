@@ -6,17 +6,18 @@
 using namespace Rcpp;
 
 // demog_test
-std::vector<int> demog_test(int N, int days, int substep, std::vector<double> age_distribution, std::vector<double> life_distribution);
-RcppExport SEXP _siR_demog_test(SEXP NSEXP, SEXP daysSEXP, SEXP substepSEXP, SEXP age_distributionSEXP, SEXP life_distributionSEXP) {
+std::vector<int> demog_test(int N, int days, int substep, std::vector<double> age_of_death, std::vector<int> birth_times, std::vector<int> death_times);
+RcppExport SEXP _siR_demog_test(SEXP NSEXP, SEXP daysSEXP, SEXP substepSEXP, SEXP age_of_deathSEXP, SEXP birth_timesSEXP, SEXP death_timesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type N(NSEXP);
     Rcpp::traits::input_parameter< int >::type days(daysSEXP);
     Rcpp::traits::input_parameter< int >::type substep(substepSEXP);
-    Rcpp::traits::input_parameter< std::vector<double> >::type age_distribution(age_distributionSEXP);
-    Rcpp::traits::input_parameter< std::vector<double> >::type life_distribution(life_distributionSEXP);
-    rcpp_result_gen = Rcpp::wrap(demog_test(N, days, substep, age_distribution, life_distribution));
+    Rcpp::traits::input_parameter< std::vector<double> >::type age_of_death(age_of_deathSEXP);
+    Rcpp::traits::input_parameter< std::vector<int> >::type birth_times(birth_timesSEXP);
+    Rcpp::traits::input_parameter< std::vector<int> >::type death_times(death_timesSEXP);
+    rcpp_result_gen = Rcpp::wrap(demog_test(N, days, substep, age_of_death, birth_times, death_times));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -136,7 +137,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_siR_demog_test", (DL_FUNC) &_siR_demog_test, 5},
+    {"_siR_demog_test", (DL_FUNC) &_siR_demog_test, 6},
     {"_siR_weighted_sample", (DL_FUNC) &_siR_weighted_sample, 2},
     {"_siR_seq_cpp", (DL_FUNC) &_siR_seq_cpp, 3},
     {"_siR_ibm_closed_sir_rcpp", (DL_FUNC) &_siR_ibm_closed_sir_rcpp, 6},

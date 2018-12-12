@@ -21,4 +21,14 @@ class Person{
 
 };
 
+class Person2{
+public:
+  // Default constructor
+  Person2(int birth_t, int death_t);
+
+  // Attributes
+  int birth;
+  int death;
+};
+
 #endif
