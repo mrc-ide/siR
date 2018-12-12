@@ -23,7 +23,7 @@ current_age <- function(N, equilbrium_age){
 #'
 #' @return A single conditioned lifespan draw
 #' @export
-conditional_death_age <- function(age, age_of_death, max_age = 89){
+conditional_lifespan <- function(age, age_of_death, max_age = 89){
   y <- floor (age / 365)
   d <- age %% 365
 
