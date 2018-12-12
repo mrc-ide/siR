@@ -8,8 +8,8 @@
 
 //' @export
 // [[Rcpp::export]]
-std::vector<int> demog_test(int N, int days, int substep,
-                            std::vector<double> age_distribution, std::vector<double> life_distribution){
+std::vector<int> demog_test(int N, int days, int substep, std::vector<double> age_of_death,
+                            std::vector<int> birth_times, std::vector<int> death_times){
 
   // Initialise model time
   int t = 0;
@@ -18,44 +18,48 @@ std::vector<int> demog_test(int N, int days, int substep,
   // Propoprtion of births that are female
   double prop_f = 0.5;
 
-  // Death scheduler
-  std::vector<std::vector<Person* > > death_scheduler(maxt);
   // Death tracker
   std::vector<int> deaths(maxt);
+  int cur_death;
+  int year_death;
+  int day_death;
 
   // Population
-  std::vector<Person> Pop;
+  std::vector<Person2> Pop;
   Pop.reserve(N);
 
   // Populate Pop vector
   for(int i = 0; i < N; i++){
     // New person
-    Person np = Person(t, substep, prop_f, age_distribution, life_distribution);
+    Person2 np = Person2(birth_times[i], death_times[i] - birth_times[i]);
     // Add to pop vector
     Pop.push_back(np);
-    // If death occurs within timeframe, add a pointer to the person to scheduler.
-    if(np.death_time < maxt){
-      death_scheduler[np.death_time].push_back(&Pop[i]);
-    }
   }
 
   // Cycle through time steps
   for(int t = 0; t < maxt; t++){
-    if(t % substep == 0){
-      deaths[t] = death_scheduler[t].size();
-      // Scheduled deaths
-      for(unsigned int d = 0; d < death_scheduler[t].size(); d++){
-        // Replace the dead person
-        death_scheduler[t][d]->new_birth(t, substep, prop_f, life_distribution);
-        // Schedule the new person's death if within time window
-        if(death_scheduler[t][d]->death_time < maxt){
-          death_scheduler[death_scheduler[t][d]->death_time].push_back(death_scheduler[t][d]);
-        }
+    // Reset death counter for current timestep
+    cur_death = 0;
+    // Cycle through people
+    for(int p = 0; p < N; p++){
+      // If person dies
+      if(Pop[p].death == t){
+        // Record death
+        cur_death ++;
+        // Draw age of death for new person
+        year_death = weighted_sample(age_of_death, 0);
+        day_death = int(R::runif(0, 365));
+        // Replace with new person
+        Person2 np = Person2(t, t + year_death * 365 + day_death);
+        Pop[p] = np;
       }
     }
+    // Record deaths in timestep
+    deaths[t] = cur_death;
   }
 
   return deaths;
 }
+
 
 
