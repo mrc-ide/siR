@@ -2,8 +2,8 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #' @export
-demog_test <- function(N, days, substep, age_distribution, life_distribution) {
-    .Call('_siR_demog_test', PACKAGE = 'siR', N, days, substep, age_distribution, life_distribution)
+demog_test <- function(N, days, substep, age_of_death, birth_times, death_times) {
+    .Call('_siR_demog_test', PACKAGE = 'siR', N, days, substep, age_of_death, birth_times, death_times)
 }
 
 #' @export
