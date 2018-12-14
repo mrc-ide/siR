@@ -8,9 +8,9 @@ r_packages:
   - testthat
 r_github_packages:
   - r-lib/covr
-  - mrc-ide/odin
   - mrc-ide/cinterpolate
   - richfitz/dde
+  - mrc-ide/odin
 after_success:
   - Rscript -e 'covr::codecov(quiet = FALSE)
 notifications:
