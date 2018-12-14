@@ -21,81 +21,89 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// weighted_sample
-unsigned int weighted_sample(std::vector<double>& weights, unsigned int istart);
-RcppExport SEXP _siR_weighted_sample(SEXP weightsSEXP, SEXP istartSEXP) {
+// draw_equilibrium_age
+int draw_equilibrium_age(std::vector<int>& age_years, std::vector<double>& equilibrium_age);
+RcppExport SEXP _siR_draw_equilibrium_age(SEXP age_yearsSEXP, SEXP equilibrium_ageSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::vector<double>& >::type weights(weightsSEXP);
-    Rcpp::traits::input_parameter< unsigned int >::type istart(istartSEXP);
-    rcpp_result_gen = Rcpp::wrap(weighted_sample(weights, istart));
+    Rcpp::traits::input_parameter< std::vector<int>& >::type age_years(age_yearsSEXP);
+    Rcpp::traits::input_parameter< std::vector<double>& >::type equilibrium_age(equilibrium_ageSEXP);
+    rcpp_result_gen = Rcpp::wrap(draw_equilibrium_age(age_years, equilibrium_age));
     return rcpp_result_gen;
 END_RCPP
 }
-// seq_cpp
-std::vector<double> seq_cpp(double from, double to, double by);
-RcppExport SEXP _siR_seq_cpp(SEXP fromSEXP, SEXP toSEXP, SEXP bySEXP) {
+// sample_int
+int sample_int(int from, int to);
+RcppExport SEXP _siR_sample_int(SEXP fromSEXP, SEXP toSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type from(fromSEXP);
+    Rcpp::traits::input_parameter< int >::type to(toSEXP);
+    rcpp_result_gen = Rcpp::wrap(sample_int(from, to));
+    return rcpp_result_gen;
+END_RCPP
+}
+// sample_double
+double sample_double(double from, double to);
+RcppExport SEXP _siR_sample_double(SEXP fromSEXP, SEXP toSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< double >::type from(fromSEXP);
     Rcpp::traits::input_parameter< double >::type to(toSEXP);
-    Rcpp::traits::input_parameter< double >::type by(bySEXP);
-    rcpp_result_gen = Rcpp::wrap(seq_cpp(from, to, by));
+    rcpp_result_gen = Rcpp::wrap(sample_double(from, to));
     return rcpp_result_gen;
 END_RCPP
 }
-// ibm_closed_sir_rcpp
-Rcpp::List ibm_closed_sir_rcpp(double sigma, double beta, int N, int i0, int t_final, double dt);
-RcppExport SEXP _siR_ibm_closed_sir_rcpp(SEXP sigmaSEXP, SEXP betaSEXP, SEXP NSEXP, SEXP i0SEXP, SEXP t_finalSEXP, SEXP dtSEXP) {
+// weighted_sample_int
+int weighted_sample_int(std::vector<int>& x, std::vector<double>& weights);
+RcppExport SEXP _siR_weighted_sample_int(SEXP xSEXP, SEXP weightsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type sigma(sigmaSEXP);
-    Rcpp::traits::input_parameter< double >::type beta(betaSEXP);
-    Rcpp::traits::input_parameter< int >::type N(NSEXP);
-    Rcpp::traits::input_parameter< int >::type i0(i0SEXP);
-    Rcpp::traits::input_parameter< int >::type t_final(t_finalSEXP);
-    Rcpp::traits::input_parameter< double >::type dt(dtSEXP);
-    rcpp_result_gen = Rcpp::wrap(ibm_closed_sir_rcpp(sigma, beta, N, i0, t_final, dt));
+    Rcpp::traits::input_parameter< std::vector<int>& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< std::vector<double>& >::type weights(weightsSEXP);
+    rcpp_result_gen = Rcpp::wrap(weighted_sample_int(x, weights));
     return rcpp_result_gen;
 END_RCPP
 }
-// ibm_het
-Rcpp::List ibm_het(double sigma, double beta, int N, int i0, Rcpp::NumericVector times, double dt, bool het, std::vector<double> age_distribution, std::vector<double> life_distribution);
-RcppExport SEXP _siR_ibm_het(SEXP sigmaSEXP, SEXP betaSEXP, SEXP NSEXP, SEXP i0SEXP, SEXP timesSEXP, SEXP dtSEXP, SEXP hetSEXP, SEXP age_distributionSEXP, SEXP life_distributionSEXP) {
+// weighted_sample_double
+double weighted_sample_double(std::vector<double>& x, std::vector<double>& weights);
+RcppExport SEXP _siR_weighted_sample_double(SEXP xSEXP, SEXP weightsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type sigma(sigmaSEXP);
-    Rcpp::traits::input_parameter< double >::type beta(betaSEXP);
-    Rcpp::traits::input_parameter< int >::type N(NSEXP);
-    Rcpp::traits::input_parameter< int >::type i0(i0SEXP);
-    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type times(timesSEXP);
-    Rcpp::traits::input_parameter< double >::type dt(dtSEXP);
-    Rcpp::traits::input_parameter< bool >::type het(hetSEXP);
-    Rcpp::traits::input_parameter< std::vector<double> >::type age_distribution(age_distributionSEXP);
-    Rcpp::traits::input_parameter< std::vector<double> >::type life_distribution(life_distributionSEXP);
-    rcpp_result_gen = Rcpp::wrap(ibm_het(sigma, beta, N, i0, times, dt, het, age_distribution, life_distribution));
+    Rcpp::traits::input_parameter< std::vector<double>& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< std::vector<double>& >::type weights(weightsSEXP);
+    rcpp_result_gen = Rcpp::wrap(weighted_sample_double(x, weights));
     return rcpp_result_gen;
 END_RCPP
 }
-// ibm_scheduled
-Rcpp::List ibm_scheduled(double sigma, double beta, int N, int i0, int days, int substep, std::vector<double> age_distribution, std::vector<double> life_distribution);
-RcppExport SEXP _siR_ibm_scheduled(SEXP sigmaSEXP, SEXP betaSEXP, SEXP NSEXP, SEXP i0SEXP, SEXP daysSEXP, SEXP substepSEXP, SEXP age_distributionSEXP, SEXP life_distributionSEXP) {
+// weighted_sample_min_int
+int weighted_sample_min_int(std::vector<int>& x, std::vector<double>& weights, int lower);
+RcppExport SEXP _siR_weighted_sample_min_int(SEXP xSEXP, SEXP weightsSEXP, SEXP lowerSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type sigma(sigmaSEXP);
-    Rcpp::traits::input_parameter< double >::type beta(betaSEXP);
-    Rcpp::traits::input_parameter< int >::type N(NSEXP);
-    Rcpp::traits::input_parameter< int >::type i0(i0SEXP);
-    Rcpp::traits::input_parameter< int >::type days(daysSEXP);
-    Rcpp::traits::input_parameter< int >::type substep(substepSEXP);
-    Rcpp::traits::input_parameter< std::vector<double> >::type age_distribution(age_distributionSEXP);
-    Rcpp::traits::input_parameter< std::vector<double> >::type life_distribution(life_distributionSEXP);
-    rcpp_result_gen = Rcpp::wrap(ibm_scheduled(sigma, beta, N, i0, days, substep, age_distribution, life_distribution));
+    Rcpp::traits::input_parameter< std::vector<int>& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< std::vector<double>& >::type weights(weightsSEXP);
+    Rcpp::traits::input_parameter< int >::type lower(lowerSEXP);
+    rcpp_result_gen = Rcpp::wrap(weighted_sample_min_int(x, weights, lower));
+    return rcpp_result_gen;
+END_RCPP
+}
+// weighted_sample_min_double
+double weighted_sample_min_double(std::vector<double>& x, std::vector<double>& weights, int lower);
+RcppExport SEXP _siR_weighted_sample_min_double(SEXP xSEXP, SEXP weightsSEXP, SEXP lowerSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::vector<double>& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< std::vector<double>& >::type weights(weightsSEXP);
+    Rcpp::traits::input_parameter< int >::type lower(lowerSEXP);
+    rcpp_result_gen = Rcpp::wrap(weighted_sample_min_double(x, weights, lower));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -138,11 +146,13 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_siR_demog_test", (DL_FUNC) &_siR_demog_test, 6},
-    {"_siR_weighted_sample", (DL_FUNC) &_siR_weighted_sample, 2},
-    {"_siR_seq_cpp", (DL_FUNC) &_siR_seq_cpp, 3},
-    {"_siR_ibm_closed_sir_rcpp", (DL_FUNC) &_siR_ibm_closed_sir_rcpp, 6},
-    {"_siR_ibm_het", (DL_FUNC) &_siR_ibm_het, 9},
-    {"_siR_ibm_scheduled", (DL_FUNC) &_siR_ibm_scheduled, 8},
+    {"_siR_draw_equilibrium_age", (DL_FUNC) &_siR_draw_equilibrium_age, 2},
+    {"_siR_sample_int", (DL_FUNC) &_siR_sample_int, 2},
+    {"_siR_sample_double", (DL_FUNC) &_siR_sample_double, 2},
+    {"_siR_weighted_sample_int", (DL_FUNC) &_siR_weighted_sample_int, 2},
+    {"_siR_weighted_sample_double", (DL_FUNC) &_siR_weighted_sample_double, 2},
+    {"_siR_weighted_sample_min_int", (DL_FUNC) &_siR_weighted_sample_min_int, 3},
+    {"_siR_weighted_sample_min_double", (DL_FUNC) &_siR_weighted_sample_min_double, 3},
     {"_siR_steps", (DL_FUNC) &_siR_steps, 2},
     {"_siR_years_to_steps", (DL_FUNC) &_siR_years_to_steps, 2},
     {"_siR_days_to_steps", (DL_FUNC) &_siR_days_to_steps, 2},

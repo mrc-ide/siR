@@ -1,7 +1,7 @@
 context("test-sampling")
 
 test_that("Single sampling", {
-  expect_equal(sample_integer(1,1), 1)
+  expect_equal(sample_int(1,1), 1)
   sample_double(1,1)
 
   int_samp <- rep(NA, 1000)
@@ -9,7 +9,7 @@ test_that("Single sampling", {
   w_int_samp <- rep(NA, 1000)
   w_int_samp_min <- rep(NA, 1000)
   for(i in 1:1000){
-    int_samp[i] <- sample_integer(1, 10)
+    int_samp[i] <- sample_int(1, 10)
     double_samp[i] <- sample_double(1, 10)
     w_int_samp[i] <- weighted_sample_int(1:10, seq(0.1, 1, 0.1))
     w_int_samp_min[i] <-  weighted_sample_min_int(1:10, seq(0.1, 1, 0.1), 5)

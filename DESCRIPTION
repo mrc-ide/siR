@@ -15,8 +15,9 @@ Imports:
 Depends:
     R (>= 2.10)
 Remotes: 
+    mrc-ide/cinterpolate,
     mrc-ide/odin,
-    mrc-ide/cinterpolate
+    richfitz/dde
 RoxygenNote: 6.1.1
 URL: https://github.com/mrc-ide/siR
 BugReports: https://github.com/mrc-ide/siR/issues

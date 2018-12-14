@@ -6,34 +6,76 @@ demog_test <- function(N, days, substep, age_of_death, birth_times, death_times)
     .Call('_siR_demog_test', PACKAGE = 'siR', N, days, substep, age_of_death, birth_times, death_times)
 }
 
-#' @export
-weighted_sample <- function(weights, istart) {
-    .Call('_siR_weighted_sample', PACKAGE = 'siR', weights, istart)
-}
-
-#' @export
-seq_cpp <- function(from, to, by) {
-    .Call('_siR_seq_cpp', PACKAGE = 'siR', from, to, by)
-}
-
-#' ibm_closed_sir_rcpp 1
+#' Draw an age (in days) from the equilibrium age distribution
 #'
-#' @inheritParams ibm_closed_sir
+#' @param age_year Vector of integersof possible age years
+#' @param equilibrium_age Equilribrium age distribution
+#' @return An integer age (days)
+#' @export
+draw_equilibrium_age <- function(age_years, equilibrium_age) {
+    .Call('_siR_draw_equilibrium_age', PACKAGE = 'siR', age_years, equilibrium_age)
+}
+
+#' Sample single integer from range.
 #'
-#' @return IBM model output
+#' @param from Starting integer (inclusive)
+#' @param to End integer (inclusive)
 #' @export
-ibm_closed_sir_rcpp <- function(sigma = 2, beta = 4, N = 1000L, i0 = 1L, t_final = 100L, dt = 0.01) {
-    .Call('_siR_ibm_closed_sir_rcpp', PACKAGE = 'siR', sigma, beta, N, i0, t_final, dt)
+sample_int <- function(from, to) {
+    .Call('_siR_sample_int', PACKAGE = 'siR', from, to)
 }
 
+#' Sample single double from range.
+#'
+#' @param from Starting double (inclusive)
+#' @param to End double (inclusive)
 #' @export
-ibm_het <- function(sigma, beta, N, i0, times, dt, het, age_distribution, life_distribution) {
-    .Call('_siR_ibm_het', PACKAGE = 'siR', sigma, beta, N, i0, times, dt, het, age_distribution, life_distribution)
+sample_double <- function(from, to) {
+    .Call('_siR_sample_double', PACKAGE = 'siR', from, to)
 }
 
+#' Sample single integer from vector with probability weights.
+#'
+#' @param x Vector of integers to sample from
+#' @param weights Vector of weights
+#' @return Probability weighted sample
 #' @export
-ibm_scheduled <- function(sigma, beta, N, i0, days, substep, age_distribution, life_distribution) {
-    .Call('_siR_ibm_scheduled', PACKAGE = 'siR', sigma, beta, N, i0, days, substep, age_distribution, life_distribution)
+weighted_sample_int <- function(x, weights) {
+    .Call('_siR_weighted_sample_int', PACKAGE = 'siR', x, weights)
+}
+
+#' Sample single double from vector with probability weights.
+#'
+#' @param x Vector of integers to sample from
+#' @param weights Vector of weights
+#' @return Probability weighted sample
+#' @export
+weighted_sample_double <- function(x, weights) {
+    .Call('_siR_weighted_sample_double', PACKAGE = 'siR', x, weights)
+}
+
+#' Sample single integer from vector with probability weights conditional on
+#' minimum lower bound.
+#'
+#' @param x Vector of integers to sample from (must be ordered)
+#' @param weights Vector of weights
+#' @param lower Lower value of x that must be exceeded
+#' @return Probability weighted sample
+#' @export
+weighted_sample_min_int <- function(x, weights, lower) {
+    .Call('_siR_weighted_sample_min_int', PACKAGE = 'siR', x, weights, lower)
+}
+
+#' Sample single double from vector with probability weights conditional on
+#' minimum lower bound.
+#'
+#' @param x Vector of integers to sample from (must be ordered)
+#' @param weights Vector of weights
+#' @param lower Lower value of x that must be exceeded
+#' @return Probability weighted sample
+#' @export
+weighted_sample_min_double <- function(x, weights, lower) {
+    .Call('_siR_weighted_sample_min_double', PACKAGE = 'siR', x, weights, lower)
 }
 
 #' @export
