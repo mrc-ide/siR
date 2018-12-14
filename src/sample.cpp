@@ -7,7 +7,7 @@
 //' @param to End integer (inclusive)
 //' @export
 // [[Rcpp::export]]
-int sample_integer(int from, int to){
+int sample_int(int from, int to){
   return int(R::runif(from, to + 1));
 }
 
