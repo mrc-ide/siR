@@ -1,6 +1,5 @@
 #include <Rcpp.h>
 #include "sample.h"
-//using namespace Rcpp;
 
 //' Sample single integer from range.
 //'
