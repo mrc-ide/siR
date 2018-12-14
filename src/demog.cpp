@@ -3,7 +3,7 @@
 #include <cmath>
 #include "demog.h"
 #include "person.h"
-#include "helper.h"
+#include "sample.h"
 #include "time.h"
 
 //' @export
@@ -11,12 +11,14 @@
 std::vector<int> demog_test(int N, int days, int substep, std::vector<double> age_of_death,
                             std::vector<int> birth_times, std::vector<int> death_times){
 
-  // Initialise model time
-  int t = 0;
   // Maximum time steps
   int maxt = steps(days, substep);
-  // Propoprtion of births that are female
-  double prop_f = 0.5;
+
+  // Initialise vector of age years
+  std::vector<int> age_years(90);
+  for(unsigned int i = 0; i < 90; i++){
+    age_years[i] = i;
+  }
 
   // Death tracker
   std::vector<int> deaths(maxt);
@@ -25,13 +27,13 @@ std::vector<int> demog_test(int N, int days, int substep, std::vector<double> ag
   int day_death;
 
   // Population
-  std::vector<Person2> Pop;
+  std::vector<Person> Pop;
   Pop.reserve(N);
 
   // Populate Pop vector
   for(int i = 0; i < N; i++){
     // New person
-    Person2 np = Person2(birth_times[i], death_times[i] - birth_times[i]);
+    Person np = Person(birth_times[i], death_times[i] - birth_times[i]);
     // Add to pop vector
     Pop.push_back(np);
   }
@@ -43,14 +45,14 @@ std::vector<int> demog_test(int N, int days, int substep, std::vector<double> ag
     // Cycle through people
     for(int p = 0; p < N; p++){
       // If person dies
-      if(Pop[p].death == t){
+      if(Pop[p].death_time == t){
         // Record death
         cur_death ++;
         // Draw age of death for new person
-        year_death = weighted_sample(age_of_death, 0);
-        day_death = int(R::runif(0, 365));
+        year_death = weighted_sample_int(age_years, age_of_death);
+        day_death = sample_int(0, 364);
         // Replace with new person
-        Person2 np = Person2(t, t + year_death * 365 + day_death);
+        Person np = Person(t, t + year_death * 365 + day_death);
         Pop[p] = np;
       }
     }
