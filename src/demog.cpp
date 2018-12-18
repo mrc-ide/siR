@@ -5,11 +5,15 @@
 #include "person.h"
 #include "sample.h"
 #include "time.h"
+#include "demog_equilibrium.h"
 
 //' @export
 // [[Rcpp::export]]
-std::vector<int> demog_test(int N, int days, int substep, std::vector<double> age_of_death,
-                            std::vector<int> birth_times, std::vector<int> death_times){
+std::vector<int> demog_test(int N, int days, int substep, std::vector<double> age_of_death, std::vector<double> equilibrium_age){
+
+  //
+  int equil_age;
+  int equil_death;
 
   // Maximum time steps
   int maxt = steps(days, substep);
@@ -32,8 +36,13 @@ std::vector<int> demog_test(int N, int days, int substep, std::vector<double> ag
 
   // Populate Pop vector
   for(int i = 0; i < N; i++){
+    //Rcpp::Rcout << i << std::endl;
+    equil_age = draw_equilibrium_age(age_years, equilibrium_age);
+    //Rcpp::Rcout << "ea " << equil_age << std::endl;
+    equil_death = draw_equilibrium_death_age(equil_age, age_years, age_of_death, 89);
+    //Rcpp::Rcout << "ed " << equil_death << std::endl;
     // New person
-    Person np = Person(birth_times[i], death_times[i] - birth_times[i]);
+    Person np = Person(-equil_age, equil_death - equil_age);
     // Add to pop vector
     Pop.push_back(np);
   }
