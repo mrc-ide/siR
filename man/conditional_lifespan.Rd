@@ -9,9 +9,9 @@ conditional_lifespan(age, age_of_death, max_age = 89)
 \arguments{
 \item{age}{Current age (days)}
 
-\item{max_age}{Maximum age (in years, actual maximum is this + 364 days)}
+\item{age_of_death}{Equilibrium probability of death}
 
-\item{equilbrium_age}{Equilirium probability of death}
+\item{max_age}{Maximum age (in years, actual maximum is this + 364 days)}
 }
 \value{
 A single conditioned lifespan draw

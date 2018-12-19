@@ -9,6 +9,9 @@ equilibrium_age_death(life_table)
 \arguments{
 \item{life_table}{Vector of yearly death probability for 0-90.}
 }
+\value{
+Age of death distribution
+}
 \description{
 Equilibrium age of death
 }

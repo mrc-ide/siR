@@ -8,6 +8,8 @@ prob_death_who_to_annual(probability_of_death, spar = 0.2)
 }
 \arguments{
 \item{probability_of_death}{Column: "nqx - probability of dying between ages x and x+n"}
+
+\item{spar}{Smoothing parameter. See \link[stats]{smooth.spline} for more details}
 }
 \value{
 Smoothed probability of death

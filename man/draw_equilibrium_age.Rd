@@ -7,9 +7,9 @@
 draw_equilibrium_age(age_years, equilibrium_age)
 }
 \arguments{
-\item{equilibrium_age}{Equilribrium age distribution}
+\item{age_years}{Vector of integersof possible age years}
 
-\item{age_year}{Vector of integersof possible age years}
+\item{equilibrium_age}{Equilribrium age distribution}
 }
 \value{
 An integer age (days)
