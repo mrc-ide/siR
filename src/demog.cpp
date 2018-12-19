@@ -9,14 +9,14 @@
 
 //' @export
 // [[Rcpp::export]]
-std::vector<int> demog_test(int N, int days, int substep, std::vector<double> age_of_death, std::vector<double> equilibrium_age){
-
-  //
-  int equil_age;
-  int equil_death;
+Rcpp::List demog_test(int N, int days, int substep, std::vector<double> age_of_death, std::vector<double> equilibrium_age){
 
   // Maximum time steps
   int maxt = steps(days, substep);
+
+  // Initialise demog vars
+  int equil_age;
+  int equil_death;
 
   // Initialise vector of age years
   std::vector<int> age_years(90);
@@ -48,7 +48,7 @@ std::vector<int> demog_test(int N, int days, int substep, std::vector<double> ag
   }
 
   // Cycle through time steps
-  for(int t = 0; t < maxt; t++){
+  for(int t = 0; t < maxt-1; t++){
     // Reset death counter for current timestep
     cur_death = 0;
     // Cycle through people
@@ -69,7 +69,10 @@ std::vector<int> demog_test(int N, int days, int substep, std::vector<double> ag
     deaths[t] = cur_death;
   }
 
-  return deaths;
+  Rcpp::NumericVector deaths_out = Rcpp::wrap(deaths);
+
+  return Rcpp::List::create(
+    Rcpp::Named("deaths") = deaths_out);
 }
 
 
