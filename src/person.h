@@ -1,6 +1,11 @@
 #ifndef person_h
 #define person_h
 
+// Define an enumerator to denote status of an individual
+enum state {
+  susceptible, infected, recovered
+};
+
 class Person{
 public:
   // Default constructor
@@ -13,6 +18,10 @@ public:
     // Demography
   int birth_time;
   int death_time;
+    // Epi
+  state status;
 };
+
+
 
 #endif

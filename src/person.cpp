@@ -7,6 +7,8 @@
 Person::Person(int birth_t, int death_t){
   birth_time = birth_t;
   death_time = death_t;
+  // Initialise all new people as susceptible
+  status = susceptible;
 }
 
 char Person::attribute_sex(double prop_f){
