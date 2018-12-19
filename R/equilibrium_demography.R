@@ -35,10 +35,8 @@ equilibrium_age_distribution <- function(life_table){
 #'
 #' @inheritParams equilibrium_age_distribution
 #'
-#' @return
+#' @return Age of death distribution
 #' @export
-#'
-#' @examples
 equilibrium_age_death <- function(life_table){
   n <- length(life_table)
   age_death <- rep(0, n)
@@ -68,6 +66,7 @@ lifetable_to_transtion_matrix <- function(life_table){
 #' Life table raw data can be obtained from http://apps.who.int/gho/data/node.main.687?lang=en.
 #'
 #' @param probability_of_death Column: "nqx - probability of dying between ages x and x+n"
+#' @param spar Smoothing parameter. See \link[stats]{smooth.spline} for more details
 #'
 #' @return Smoothed probability of death
 prob_death_who_to_annual <- function(probability_of_death, spar = 0.2){
@@ -77,11 +76,11 @@ prob_death_who_to_annual <- function(probability_of_death, spar = 0.2){
   # Ages (for smoothing input)
   ages_raw <- start_year + age_widths / 2
   # Spline to estimate smoothed death probability as a function of age
-  sm_p_death <- smooth.spline(x = ages_raw, y = probability_of_death, spar = spar)
+  sm_p_death <- stats::smooth.spline(x = ages_raw, y = probability_of_death, spar = spar)
   # All ages
   ages <- 0:89
   # Predicted smoothed death probability for all ages
-  smooth_prob <- predict(sm_p_death, ages)$y / (rep(age_widths, age_widths))
+  smooth_prob <- stats::predict(sm_p_death, ages)$y / (rep(age_widths, age_widths))
   # Final age group must have prob = 1
   smooth_prob[length(smooth_prob)] <- 1
   return(smooth_prob)

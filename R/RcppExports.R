@@ -2,18 +2,29 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #' @export
-demog_test <- function(N, days, substep, age_of_death, birth_times, death_times) {
-    .Call('_siR_demog_test', PACKAGE = 'siR', N, days, substep, age_of_death, birth_times, death_times)
+demog_test <- function(N, days, substep, age_of_death, equilibrium_age) {
+    .Call('_siR_demog_test', PACKAGE = 'siR', N, days, substep, age_of_death, equilibrium_age)
 }
 
 #' Draw an age (in days) from the equilibrium age distribution
 #'
-#' @param age_year Vector of integersof possible age years
+#' @param age_years Vector of integersof possible age years
 #' @param equilibrium_age Equilribrium age distribution
 #' @return An integer age (days)
 #' @export
 draw_equilibrium_age <- function(age_years, equilibrium_age) {
     .Call('_siR_draw_equilibrium_age', PACKAGE = 'siR', age_years, equilibrium_age)
+}
+
+#' Draw a death age conditional on an age from the equilibrium age distribution
+#'
+#' @param age Age (days) frawn from equilibrium age distribution
+#' @param age_years Vector of integersof possible age years
+#' @param age_of_death Equilribrium age of death distribution
+#' @param max_age MAximum age (years)
+#' @return An integer death age (days)
+draw_equilibrium_death_age <- function(age, age_years, age_of_death, max_age) {
+    .Call('_siR_draw_equilibrium_death_age', PACKAGE = 'siR', age, age_years, age_of_death, max_age)
 }
 
 #' Sample single integer from range.
