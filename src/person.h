@@ -10,6 +10,7 @@ public:
   char attribute_sex(double prop_f = 0.5);
 
   // Attributes
+    // Demography
   int birth_time;
   int death_time;
 };
