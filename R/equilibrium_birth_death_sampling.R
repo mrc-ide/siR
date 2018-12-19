@@ -18,7 +18,7 @@ current_age <- function(N, equilbrium_age){
 #' Makes a draw of the lifespan (in days), given a current age
 #'
 #' @param age Current age (days)
-#' @param equilbrium_age Equilirium probability of death
+#' @param age_of_death Equilibrium probability of death
 #' @param max_age Maximum age (in years, actual maximum is this + 364 days)
 #'
 #' @return A single conditioned lifespan draw
@@ -32,7 +32,7 @@ conditional_lifespan <- function(age, age_of_death, max_age = 89){
   full_days_available <- 365 - d
 
   # Probability of death in future years (including current year)
-  conditional_probs <- tail(age_of_death, full_years_available + 1)
+  conditional_probs <- utils::tail(age_of_death, full_years_available + 1)
   # Downgrade probability in current year as some has been "lived" already
   conditional_probs[1] <- conditional_probs[1] * (full_days_available / 365)
 
