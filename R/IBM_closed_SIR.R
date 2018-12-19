@@ -83,7 +83,7 @@ infection_probability <- function(beta, I_prev, N_inv, dt){
 #'
 #' @return Sampled successes from people
 draw_sample <- function(people, prob){
-  sample(people, rbinom(n = 1, size = length(people), prob = prob))
+  sample(people, stats::rbinom(n = 1, size = length(people), prob = prob))
 }
 
 #' Convert a rate to a probability
