@@ -7,12 +7,19 @@
 #include "time.h"
 #include "demog_equilibrium.h"
 
+//' Test demography
+//'
+//' @param N Population size
+//' @param days Simulation time (days)
+//' @param substep Substeps per day
+//' @param age_of_death Probability of age of death
+//' @param equilibrium_age Equilibrium age distribution
 //' @export
 // [[Rcpp::export]]
 Rcpp::List demog_test(int N, int days, int substep, std::vector<double> age_of_death, std::vector<double> equilibrium_age){
 
   // Maximum time steps
-  int maxt = steps(days, substep);
+  int maxt = days_to_steps(days, substep);
 
   // Initialise demog vars
   int equil_age;

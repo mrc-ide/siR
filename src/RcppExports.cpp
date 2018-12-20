@@ -6,8 +6,8 @@
 using namespace Rcpp;
 
 // demog_test
-std::vector<int> demog_test(int N, int days, int substep, std::vector<double> age_of_death, std::vector<int> birth_times, std::vector<int> death_times);
-RcppExport SEXP _siR_demog_test(SEXP NSEXP, SEXP daysSEXP, SEXP substepSEXP, SEXP age_of_deathSEXP, SEXP birth_timesSEXP, SEXP death_timesSEXP) {
+Rcpp::List demog_test(int N, int days, int substep, std::vector<double> age_of_death, std::vector<double> equilibrium_age);
+RcppExport SEXP _siR_demog_test(SEXP NSEXP, SEXP daysSEXP, SEXP substepSEXP, SEXP age_of_deathSEXP, SEXP equilibrium_ageSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -15,9 +15,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type days(daysSEXP);
     Rcpp::traits::input_parameter< int >::type substep(substepSEXP);
     Rcpp::traits::input_parameter< std::vector<double> >::type age_of_death(age_of_deathSEXP);
-    Rcpp::traits::input_parameter< std::vector<int> >::type birth_times(birth_timesSEXP);
-    Rcpp::traits::input_parameter< std::vector<int> >::type death_times(death_timesSEXP);
-    rcpp_result_gen = Rcpp::wrap(demog_test(N, days, substep, age_of_death, birth_times, death_times));
+    Rcpp::traits::input_parameter< std::vector<double> >::type equilibrium_age(equilibrium_ageSEXP);
+    rcpp_result_gen = Rcpp::wrap(demog_test(N, days, substep, age_of_death, equilibrium_age));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -30,6 +29,20 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< std::vector<int>& >::type age_years(age_yearsSEXP);
     Rcpp::traits::input_parameter< std::vector<double>& >::type equilibrium_age(equilibrium_ageSEXP);
     rcpp_result_gen = Rcpp::wrap(draw_equilibrium_age(age_years, equilibrium_age));
+    return rcpp_result_gen;
+END_RCPP
+}
+// draw_equilibrium_death_age
+int draw_equilibrium_death_age(int age, std::vector<int>& age_years, std::vector<double> age_of_death, int max_age);
+RcppExport SEXP _siR_draw_equilibrium_death_age(SEXP ageSEXP, SEXP age_yearsSEXP, SEXP age_of_deathSEXP, SEXP max_ageSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type age(ageSEXP);
+    Rcpp::traits::input_parameter< std::vector<int>& >::type age_years(age_yearsSEXP);
+    Rcpp::traits::input_parameter< std::vector<double> >::type age_of_death(age_of_deathSEXP);
+    Rcpp::traits::input_parameter< int >::type max_age(max_ageSEXP);
+    rcpp_result_gen = Rcpp::wrap(draw_equilibrium_death_age(age, age_years, age_of_death, max_age));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -107,18 +120,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// steps
-int steps(int& days, int& substep);
-RcppExport SEXP _siR_steps(SEXP daysSEXP, SEXP substepSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int& >::type days(daysSEXP);
-    Rcpp::traits::input_parameter< int& >::type substep(substepSEXP);
-    rcpp_result_gen = Rcpp::wrap(steps(days, substep));
-    return rcpp_result_gen;
-END_RCPP
-}
 // years_to_steps
 int years_to_steps(int& years, int& substep);
 RcppExport SEXP _siR_years_to_steps(SEXP yearsSEXP, SEXP substepSEXP) {
@@ -145,15 +146,15 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_siR_demog_test", (DL_FUNC) &_siR_demog_test, 6},
+    {"_siR_demog_test", (DL_FUNC) &_siR_demog_test, 5},
     {"_siR_draw_equilibrium_age", (DL_FUNC) &_siR_draw_equilibrium_age, 2},
+    {"_siR_draw_equilibrium_death_age", (DL_FUNC) &_siR_draw_equilibrium_death_age, 4},
     {"_siR_sample_int", (DL_FUNC) &_siR_sample_int, 2},
     {"_siR_sample_double", (DL_FUNC) &_siR_sample_double, 2},
     {"_siR_weighted_sample_int", (DL_FUNC) &_siR_weighted_sample_int, 2},
     {"_siR_weighted_sample_double", (DL_FUNC) &_siR_weighted_sample_double, 2},
     {"_siR_weighted_sample_min_int", (DL_FUNC) &_siR_weighted_sample_min_int, 3},
     {"_siR_weighted_sample_min_double", (DL_FUNC) &_siR_weighted_sample_min_double, 3},
-    {"_siR_steps", (DL_FUNC) &_siR_steps, 2},
     {"_siR_years_to_steps", (DL_FUNC) &_siR_years_to_steps, 2},
     {"_siR_days_to_steps", (DL_FUNC) &_siR_days_to_steps, 2},
     {NULL, NULL, 0}
