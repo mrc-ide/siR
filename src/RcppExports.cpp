@@ -121,25 +121,25 @@ BEGIN_RCPP
 END_RCPP
 }
 // years_to_steps
-int years_to_steps(int& years, int& substep);
+int years_to_steps(const int years, const int substep);
 RcppExport SEXP _siR_years_to_steps(SEXP yearsSEXP, SEXP substepSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int& >::type years(yearsSEXP);
-    Rcpp::traits::input_parameter< int& >::type substep(substepSEXP);
+    Rcpp::traits::input_parameter< const int >::type years(yearsSEXP);
+    Rcpp::traits::input_parameter< const int >::type substep(substepSEXP);
     rcpp_result_gen = Rcpp::wrap(years_to_steps(years, substep));
     return rcpp_result_gen;
 END_RCPP
 }
 // days_to_steps
-int days_to_steps(int& days, int& substep);
+int days_to_steps(const int days, const int substep);
 RcppExport SEXP _siR_days_to_steps(SEXP daysSEXP, SEXP substepSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int& >::type days(daysSEXP);
-    Rcpp::traits::input_parameter< int& >::type substep(substepSEXP);
+    Rcpp::traits::input_parameter< const int >::type days(daysSEXP);
+    Rcpp::traits::input_parameter< const int >::type substep(substepSEXP);
     rcpp_result_gen = Rcpp::wrap(days_to_steps(days, substep));
     return rcpp_result_gen;
 END_RCPP
