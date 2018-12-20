@@ -7,7 +7,7 @@
 //' @param substep Substeps per day
 //' @export
 // [[Rcpp::export]]
-int years_to_steps(int &years, int &substep){
+int years_to_steps(int years, int substep){
   return years * 365 * substep;
 }
 
@@ -17,6 +17,6 @@ int years_to_steps(int &years, int &substep){
 //' @param substep Substeps per day
 //' @export
 // [[Rcpp::export]]
-int days_to_steps(int &days, int &substep){
+int days_to_steps(int days, int substep){
   return days * substep;
 }
