@@ -32,11 +32,11 @@ Rcpp::List demog_test(int N, int days, int substep, std::vector<double> age_of_d
   }
 
   // Deaths
-    // Tracking
+  //// Tracking
   std::vector<int> deaths(maxt);
   int year_death;
   int day_death;
-    // Scheduling
+  //// Scheduling
   std::vector<std::vector<int > > death_scheduler(maxt);
 
   // Population
@@ -55,15 +55,18 @@ Rcpp::List demog_test(int N, int days, int substep, std::vector<double> age_of_d
     // Add to pop vector
     Pop.push_back(np);
     // Schedule their death (Adjust for step size?)
-    death_scheduler[np.death_time].push_back(i);
+    if(np.death_time < days){
+      death_scheduler[np.death_time].push_back(i);
+    }
   }
 
   // Cycle through time steps
   for(int t = 0; t < maxt-1; t++){
     // Record deaths in timestep
     deaths[t] = death_scheduler[t].size();
+    // Implement scheduled deaths (replace with new born)
     if(death_scheduler[t].size() > 0){
-      for(int d = 0; d < death_scheduler[t].size(); d++){
+      for(unsigned int d = 0; d < death_scheduler[t].size(); d++){
         // Draw for new person
         year_death = weighted_sample_int(age_years, age_of_death);
         day_death = sample_int(0, 364);
