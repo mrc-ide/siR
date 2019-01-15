@@ -31,11 +31,13 @@ Rcpp::List demog_test(int N, int days, int substep, std::vector<double> age_of_d
     age_years[i] = i;
   }
 
-  // Death tracker
+  // Deaths
+    // Tracking
   std::vector<int> deaths(maxt);
-  int cur_death;
   int year_death;
   int day_death;
+    // Scheduling
+  std::vector<std::vector<int > > death_scheduler(maxt);
 
   // Population
   std::vector<Person> Pop;
@@ -52,28 +54,28 @@ Rcpp::List demog_test(int N, int days, int substep, std::vector<double> age_of_d
     Person np = Person(-equil_age, equil_death - equil_age);
     // Add to pop vector
     Pop.push_back(np);
+    // Schedule their death (Adjust for step size?)
+    death_scheduler[np.death_time].push_back(i);
   }
 
   // Cycle through time steps
   for(int t = 0; t < maxt-1; t++){
-    // Reset death counter for current timestep
-    cur_death = 0;
-    // Cycle through people
-    for(int p = 0; p < N; p++){
-      // If person dies
-      if(Pop[p].death_time == t){
-        // Record death
-        cur_death ++;
-        // Draw age of death for new person
+    // Record deaths in timestep
+    deaths[t] = death_scheduler[t].size();
+    if(death_scheduler[t].size() > 0){
+      for(int d = 0; d < death_scheduler[t].size(); d++){
+        // Draw for new person
         year_death = weighted_sample_int(age_years, age_of_death);
         day_death = sample_int(0, 364);
         // Replace with new person
         Person np = Person(t, t + year_death * 365 + day_death);
-        Pop[p] = np;
+        Pop[death_scheduler[t][d]] = np;
+        // Schedule death of new person
+        if(np.death_time < days){
+          death_scheduler[np.death_time].push_back(d);
+        }
       }
     }
-    // Record deaths in timestep
-    deaths[t] = cur_death;
   }
 
   Rcpp::NumericVector deaths_out = Rcpp::wrap(deaths);
