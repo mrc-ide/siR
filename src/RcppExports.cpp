@@ -46,6 +46,24 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// open_sir
+Rcpp::List open_sir(int N, int days, int substep, std::vector<double> age_of_death, std::vector<double> equilibrium_age, double beta, double sigma, int i0);
+RcppExport SEXP _siR_open_sir(SEXP NSEXP, SEXP daysSEXP, SEXP substepSEXP, SEXP age_of_deathSEXP, SEXP equilibrium_ageSEXP, SEXP betaSEXP, SEXP sigmaSEXP, SEXP i0SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type N(NSEXP);
+    Rcpp::traits::input_parameter< int >::type days(daysSEXP);
+    Rcpp::traits::input_parameter< int >::type substep(substepSEXP);
+    Rcpp::traits::input_parameter< std::vector<double> >::type age_of_death(age_of_deathSEXP);
+    Rcpp::traits::input_parameter< std::vector<double> >::type equilibrium_age(equilibrium_ageSEXP);
+    Rcpp::traits::input_parameter< double >::type beta(betaSEXP);
+    Rcpp::traits::input_parameter< double >::type sigma(sigmaSEXP);
+    Rcpp::traits::input_parameter< int >::type i0(i0SEXP);
+    rcpp_result_gen = Rcpp::wrap(open_sir(N, days, substep, age_of_death, equilibrium_age, beta, sigma, i0));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sample_int
 int sample_int(int from, int to);
 RcppExport SEXP _siR_sample_int(SEXP fromSEXP, SEXP toSEXP) {
@@ -120,24 +138,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// sir_test
-Rcpp::List sir_test(int N, int days, int substep, std::vector<double> age_of_death, std::vector<double> equilibrium_age, double beta, double sigma, int i0);
-RcppExport SEXP _siR_sir_test(SEXP NSEXP, SEXP daysSEXP, SEXP substepSEXP, SEXP age_of_deathSEXP, SEXP equilibrium_ageSEXP, SEXP betaSEXP, SEXP sigmaSEXP, SEXP i0SEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type N(NSEXP);
-    Rcpp::traits::input_parameter< int >::type days(daysSEXP);
-    Rcpp::traits::input_parameter< int >::type substep(substepSEXP);
-    Rcpp::traits::input_parameter< std::vector<double> >::type age_of_death(age_of_deathSEXP);
-    Rcpp::traits::input_parameter< std::vector<double> >::type equilibrium_age(equilibrium_ageSEXP);
-    Rcpp::traits::input_parameter< double >::type beta(betaSEXP);
-    Rcpp::traits::input_parameter< double >::type sigma(sigmaSEXP);
-    Rcpp::traits::input_parameter< int >::type i0(i0SEXP);
-    rcpp_result_gen = Rcpp::wrap(sir_test(N, days, substep, age_of_death, equilibrium_age, beta, sigma, i0));
-    return rcpp_result_gen;
-END_RCPP
-}
 // years_to_steps
 int years_to_steps(const int years, const int substep);
 RcppExport SEXP _siR_years_to_steps(SEXP yearsSEXP, SEXP substepSEXP) {
@@ -167,13 +167,13 @@ static const R_CallMethodDef CallEntries[] = {
     {"_siR_demog_test", (DL_FUNC) &_siR_demog_test, 5},
     {"_siR_draw_equilibrium_age", (DL_FUNC) &_siR_draw_equilibrium_age, 2},
     {"_siR_draw_equilibrium_death_age", (DL_FUNC) &_siR_draw_equilibrium_death_age, 4},
+    {"_siR_open_sir", (DL_FUNC) &_siR_open_sir, 8},
     {"_siR_sample_int", (DL_FUNC) &_siR_sample_int, 2},
     {"_siR_sample_double", (DL_FUNC) &_siR_sample_double, 2},
     {"_siR_weighted_sample_int", (DL_FUNC) &_siR_weighted_sample_int, 2},
     {"_siR_weighted_sample_double", (DL_FUNC) &_siR_weighted_sample_double, 2},
     {"_siR_weighted_sample_min_int", (DL_FUNC) &_siR_weighted_sample_min_int, 3},
     {"_siR_weighted_sample_min_double", (DL_FUNC) &_siR_weighted_sample_min_double, 3},
-    {"_siR_sir_test", (DL_FUNC) &_siR_sir_test, 8},
     {"_siR_years_to_steps", (DL_FUNC) &_siR_years_to_steps, 2},
     {"_siR_days_to_steps", (DL_FUNC) &_siR_days_to_steps, 2},
     {NULL, NULL, 0}

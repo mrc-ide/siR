@@ -34,6 +34,21 @@ draw_equilibrium_death_age <- function(age, age_years, age_of_death, max_age) {
     .Call('_siR_draw_equilibrium_death_age', PACKAGE = 'siR', age, age_years, age_of_death, max_age)
 }
 
+#' Test demography
+#'
+#' @param N Population size
+#' @param days Simulation time (days)
+#' @param substep Substeps per day
+#' @param age_of_death Probability of age of death
+#' @param equilibrium_age Equilibrium age distribution
+#' @param beta Beta parameter (per day)
+#' @param i0 Initial number of infecteds
+#' @param sigma Recovery rate (per day)
+#' @export
+open_sir <- function(N, days, substep, age_of_death, equilibrium_age, beta, sigma, i0) {
+    .Call('_siR_open_sir', PACKAGE = 'siR', N, days, substep, age_of_death, equilibrium_age, beta, sigma, i0)
+}
+
 #' Sample single integer from range.
 #'
 #' @param from Starting integer (inclusive)
@@ -94,21 +109,6 @@ weighted_sample_min_int <- function(x, weights, lower) {
 #' @export
 weighted_sample_min_double <- function(x, weights, lower) {
     .Call('_siR_weighted_sample_min_double', PACKAGE = 'siR', x, weights, lower)
-}
-
-#' Test demography
-#'
-#' @param N Population size
-#' @param days Simulation time (days)
-#' @param substep Substeps per day
-#' @param age_of_death Probability of age of death
-#' @param equilibrium_age Equilibrium age distribution
-#' @param beta Beta parameter
-#' @param i0 Initial number of infecteds
-#' @param sigma Recovery rate
-#' @export
-sir_test <- function(N, days, substep, age_of_death, equilibrium_age, beta, sigma, i0) {
-    .Call('_siR_sir_test', PACKAGE = 'siR', N, days, substep, age_of_death, equilibrium_age, beta, sigma, i0)
 }
 
 #' Convert years to steps
