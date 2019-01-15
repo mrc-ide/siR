@@ -7,13 +7,13 @@
 draw_equilibrium_death_age(age, age_years, age_of_death, max_age)
 }
 \arguments{
-\item{age}{Age (days) frawn from equilibrium age distribution}
+\item{age}{Age (days) drawn from equilibrium age distribution}
 
-\item{age_years}{Vector of integersof possible age years}
+\item{age_years}{Vector of integers of possible age years}
 
 \item{age_of_death}{Equilribrium age of death distribution}
 
-\item{max_age}{MAximum age (years)}
+\item{max_age}{Maximum age (years)}
 }
 \value{
 An integer death age (days)
