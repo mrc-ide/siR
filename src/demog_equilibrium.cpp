@@ -17,10 +17,10 @@ int draw_equilibrium_age(std::vector<int> &age_years, std::vector<double> &equil
 
 //' Draw a death age conditional on an age from the equilibrium age distribution
 //'
-//' @param age Age (days) frawn from equilibrium age distribution
-//' @param age_years Vector of integersof possible age years
+//' @param age Age (days) drawn from equilibrium age distribution
+//' @param age_years Vector of integers of possible age years
 //' @param age_of_death Equilribrium age of death distribution
-//' @param max_age MAximum age (years)
+//' @param max_age Maximum age (years)
 //' @return An integer death age (days)
 // [[Rcpp::export]]
 int draw_equilibrium_death_age(int age, std::vector<int> &age_years, std::vector<double> age_of_death, int max_age){
