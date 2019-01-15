@@ -1,7 +1,7 @@
 
-N <- 50000
-t <- 20 * 365
-t1 <- dplyr::bind_rows(open_sir(N, t, 1, age_of_death, equilibrium_age, 0.2, 0.01, 5))
+N <- 5000
+t <- 365 * 10
+t1 <- dplyr::bind_rows(open_sir(N, t, 1, age_of_death, equilibrium_age, 0.03, 0.005, 20))
 #t1
 
 

@@ -24,12 +24,17 @@ Rcpp::List open_sir(int N, int days, int substep,
                     std::vector<double> equilibrium_age,
                     double beta, double sigma, int i0){
 
+  // Convert rates in days to rates in substeps
+  beta = beta / substep;
+  sigma = sigma / substep;
+
   double prob_inf;
   double prob_recover =  1 - exp(-sigma);
   double N_inverse = 1 / (double)N;
 
   // Maximum time steps
   int maxt = days_to_steps(days, substep);
+  Rcpp::Rcout << "Maxt: " << maxt << std::endl;
 
   // Initialise demog vars
   int equil_age;
@@ -48,10 +53,11 @@ Rcpp::List open_sir(int N, int days, int substep,
   int day_death;
   //// Scheduling
   std::vector<std::vector<int > > death_scheduler(maxt);
+  Rcpp::Rcout << "Death scheduler size: " << death_scheduler.size() << std::endl;
 
-  std::vector<int> S(days);
-  std::vector<int> I(days);
-  std::vector<int> R(days);
+  std::vector<int> S(maxt);
+  std::vector<int> I(maxt);
+  std::vector<int> R(maxt);
   S[0] = N - i0;
   I[0] = i0;
   R[0] = 0;
@@ -62,29 +68,28 @@ Rcpp::List open_sir(int N, int days, int substep,
 
   // Populate Pop vector
   for(int i = 0; i < N; i++){
-    //Rcpp::Rcout << i << std::endl;
     equil_age = draw_equilibrium_age(age_years, equilibrium_age);
-    //Rcpp::Rcout << "ea " << equil_age << std::endl;
     equil_death = draw_equilibrium_death_age(equil_age, age_years,
                                              age_of_death, 89);
-    //Rcpp::Rcout << "ed " << equil_death << std::endl;
     // New person
     Person np = Person(-equil_age, equil_death - equil_age);
     // Add to pop vector
     Pop.push_back(np);
     // Schedule their death (Adjust for step size?)
-    if(np.death_time < days){
-      death_scheduler[np.death_time].push_back(i);
+    if(days_to_steps(np.death_time, substep) < maxt){
+      //Rcpp::Rcout << "Max schedule: " << days_to_steps(np.death_time, substep) << std::endl;
+      death_scheduler[days_to_steps(np.death_time, substep)].push_back(i);
     }
   }
   // Initialise infecteds (Need to be careful that selecting the first n
-  // remains random)
+  //// remains random)
   for(int i = 0; i < i0; i++){
     Pop[i].status = infected;
   }
 
   // Cycle through time steps
   for(int t = 1; t < maxt; t++){
+    // Initialise counters for current timestep
     S[t] = S[t - 1];
     I[t] = I[t - 1];
     R[t] = R[t - 1];
@@ -143,7 +148,6 @@ Rcpp::List open_sir(int N, int days, int substep,
           S[t] ++;
         }
         }
-
         // Draw for new person
         year_death = weighted_sample_int(age_years, age_of_death);
         day_death = sample_int(0, 364);
@@ -151,14 +155,16 @@ Rcpp::List open_sir(int N, int days, int substep,
         Person np = Person(t, t + year_death * 365 + day_death);
         Pop[death_scheduler[t][d]] = np;
         // Schedule death of new person
-        if(np.death_time < days){
-          death_scheduler[np.death_time].push_back(d);
+        if(days_to_steps(np.death_time, substep) < maxt){
+          death_scheduler[days_to_steps(np.death_time, substep)].push_back(d);
         }
       }
     }
     // -------------------------------------------------------------------------
   }
 
+
+  // Convert for R export ------------------------------------------------------
   Rcpp::NumericVector deaths_out = Rcpp::wrap(deaths);
   Rcpp::NumericVector S_out = Rcpp::wrap(S);
   Rcpp::NumericVector I_out = Rcpp::wrap(I);
@@ -169,6 +175,7 @@ Rcpp::List open_sir(int N, int days, int substep,
     Rcpp::Named("I") = I_out,
     Rcpp::Named("R") = R_out,
     Rcpp::Named("deaths") = deaths_out);
+  // ---------------------------------------------------------------------------
 }
 
 
