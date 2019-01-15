@@ -25,10 +25,10 @@ draw_equilibrium_age <- function(age_years, equilibrium_age) {
 
 #' Draw a death age conditional on an age from the equilibrium age distribution
 #'
-#' @param age Age (days) frawn from equilibrium age distribution
-#' @param age_years Vector of integersof possible age years
+#' @param age Age (days) drawn from equilibrium age distribution
+#' @param age_years Vector of integers of possible age years
 #' @param age_of_death Equilribrium age of death distribution
-#' @param max_age MAximum age (years)
+#' @param max_age Maximum age (years)
 #' @return An integer death age (days)
 draw_equilibrium_death_age <- function(age, age_years, age_of_death, max_age) {
     .Call('_siR_draw_equilibrium_death_age', PACKAGE = 'siR', age, age_years, age_of_death, max_age)
