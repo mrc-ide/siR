@@ -1,7 +1,7 @@
 Package: siR
 Type: Package
 Title: Individual-based SIR models in R and Rcpp
-Version: 0.1.0
+Version: 0.1.1
 Author: Peter Winskill
 Maintainer: Peter Winskill <p.winskill@imperial.ac.uk>
 Description: Exploring the design and running of IBM in R and Rcpp with simple examples. Including demography.
