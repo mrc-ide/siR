@@ -34,7 +34,6 @@ Rcpp::List open_sir(int N, int days, int substep,
 
   // Maximum time steps
   int maxt = days_to_steps(days, substep);
-  Rcpp::Rcout << "Maxt: " << maxt << std::endl;
 
   // Initialise demog vars
   int equil_age;
@@ -53,7 +52,6 @@ Rcpp::List open_sir(int N, int days, int substep,
   int day_death;
   //// Scheduling
   std::vector<std::vector<int > > death_scheduler(maxt);
-  Rcpp::Rcout << "Death scheduler size: " << death_scheduler.size() << std::endl;
 
   std::vector<int> S(maxt);
   std::vector<int> I(maxt);
