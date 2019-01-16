@@ -1,13 +1,47 @@
 
+devtools::load_all()
+
+N <- 500
+t <- 365 * 5
+step <- 2
+beta <- 0.03
+sigma <- 0.005
+i0 <- 20
+
+par(mfrow = c(1, 2))
+## Example closed (All deaths at 90) ###########################################
+aod <- c(rep(0,89), 1)
+plot(NA, ylim = c(0, N), xlim = c(0, t * step), ylab = "N", xlab = "Time")
+
+for(i in 1:20){
+  t1 <- dplyr::bind_rows(open_sir(N, t, step, aod, equilibrium_age, beta,
+                                  sigma, i0))
+  lines(t1$S)
+  lines(t1$I, col = "red")
+  lines(t1$R, col = "purple")
+}
+
+det <- odin_closed_sir(N = N, beta = beta / step, sigma = sigma / step,
+                       i0 = i0, t_final = t, dt = 1 / step)
+lines(det$S ~ det$t, col = 'green', lty = 1, lwd = 2)
+lines(det$I ~ det$t, col = 'green', lty = 1, lwd = 2)
+lines(det$R ~ det$t, col = 'green', lty = 1, lwd = 2)
+
+################################################################################
+
+# Example open #################################################################
+# Secondary epidemics
 N <- 5000
-t <- 365 * 10
-t1 <- dplyr::bind_rows(open_sir(N, t, 1, age_of_death, equilibrium_age, 0.03, 0.005, 20))
-#t1
+beta2 <- 0.007
+sigma2 <- 0.0013
+t <- 365 * 100
+step <- 1
+plot(NA, ylim = c(0, N), xlim = c(0, t * step), ylab = "N", xlab = "Time")
 
-
-plot(t1$S, t = "l", ylim =c (0, N))
-lines(t1$I, col = "red")
-lines(t1$R, col = "green")
-
-plot(t1$deaths, t = "l")
-
+for(i in 1:10){
+  t1 <- dplyr::bind_rows(open_sir(N, t, step, age_of_death, equilibrium_age,
+                                  beta2, sigma2, i0))
+  lines(t1$S)
+  lines(t1$I, col = "red")
+  lines(t1$R, col = "purple")
+}
