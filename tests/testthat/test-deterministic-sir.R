@@ -1,6 +1,6 @@
 context("test-deterministic-sir")
 
-test_that("multiplication works", {
+test_that("Determininstic SIR", {
   det <- odin_closed_sir(N = 1000, beta = 1, sigma = 0.5,
                          i0 = 10, t_final = 100, dt = 1)
   expect_type(det, "list")
