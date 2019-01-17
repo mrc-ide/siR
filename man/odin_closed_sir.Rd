@@ -4,21 +4,21 @@
 \alias{odin_closed_sir}
 \title{Closed SIR (ODIN)}
 \usage{
-odin_closed_sir(sigma = 2, beta = 6, N = 1000, i0 = 1,
-  t_final = 100, dt = 0.01)
+odin_closed_sir(N = 1000, days = 100, substep = 1, sigma = 2,
+  beta = 6, i0 = 1)
 }
 \arguments{
+\item{N}{Population size}
+
+\item{substep}{Number of substeps per day}
+
 \item{sigma}{Recovery rate (1 / mean duration of infection)}
 
 \item{beta}{Transmission parameter}
 
-\item{N}{Population size}
-
 \item{i0}{Number of infected people at time = 0}
 
-\item{t_final}{End time}
-
-\item{dt}{time step}
+\item{Days}{Number of days}
 }
 \value{
 Odin closed SIR model output

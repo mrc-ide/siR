@@ -12,8 +12,6 @@ infection_probability(beta, I_prev, N_inv, dt)
 \item{I_prev}{Number of infected people in previous timestep}
 
 \item{N_inv}{Inverse of the number of people}
-
-\item{dt}{time step}
 }
 \value{
 Probability of infection

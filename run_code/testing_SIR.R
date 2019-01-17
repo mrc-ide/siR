@@ -1,8 +1,8 @@
 
 devtools::load_all()
 
-N <- 500
-t <- 365 * 5
+N <- 10000
+t <- 365 * 50
 step <- 1
 beta <- 0.03
 sigma <- 0.005

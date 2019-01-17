@@ -4,8 +4,8 @@
 \alias{ibm_closed_sir}
 \title{Closed SIR (IBM)}
 \usage{
-ibm_closed_sir(sigma = 2, beta = 6, N = 1000, i0 = 1,
-  t_final = 100, dt = 0.01)
+ibm_closed_sir(sigma = 2, beta = 6, N = 1000, i0 = 1, days = 100,
+  substep = 1)
 }
 \arguments{
 \item{sigma}{Recovery rate (1 / mean duration of infection)}
@@ -16,9 +16,9 @@ ibm_closed_sir(sigma = 2, beta = 6, N = 1000, i0 = 1,
 
 \item{i0}{Number of infected people at time = 0}
 
-\item{t_final}{End time}
+\item{days}{End time}
 
-\item{dt}{time step}
+\item{substep}{time step}
 }
 \value{
 IBM closed SIR model output
