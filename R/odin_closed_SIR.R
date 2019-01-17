@@ -4,13 +4,18 @@
 #' @param beta  Transmission parameter
 #' @param N Population size
 #' @param i0 Number of infected people at time = 0
-#' @param t_final End time
-#' @param dt time step
+#' @param Days Number of days
+#' @param substep Number of substeps per day
 #'
 #' @return Odin closed SIR model output
 #' @export
-odin_closed_sir <- function(sigma = 2, beta = 6, N = 1000, i0 = 1,
-                            t_final = 100, dt = 0.01){
+odin_closed_sir <- function(N = 1000, days = 100, substep = 1,
+                            sigma = 2, beta = 6,  i0 = 1){
+
+  dt <- 1 / substep
+  beta <- beta / substep
+  sigma <- sigma / substep
+
   closed_sir <- odin::odin({
     ## Derivatives
     deriv(S) <- -beta * S * (I / N)
@@ -35,5 +40,5 @@ odin_closed_sir <- function(sigma = 2, beta = 6, N = 1000, i0 = 1,
   m1 <- closed_sir(sigma = sigma, beta = beta, N = N,
                    init_S = N - i0, init_I = i0)
   # Run model
-  as.data.frame(m1$run(seq(0, t_final, dt)))
+  as.data.frame(m1$run(seq(0, days, dt)))
 }

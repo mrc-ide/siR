@@ -3,7 +3,7 @@ devtools::load_all()
 
 N <- 500
 t <- 365 * 5
-step <- 2
+step <- 1
 beta <- 0.03
 sigma <- 0.005
 i0 <- 20
@@ -21,8 +21,8 @@ for(i in 1:20){
   lines(t1$R, col = "purple")
 }
 
-det <- odin_closed_sir(N = N, beta = beta / step, sigma = sigma / step,
-                       i0 = i0, t_final = t, dt = 1 / step)
+det <- odin_closed_sir(N = N, beta = beta, sigma = sigma,
+                       i0 = i0, days = t, substep = step)
 lines(det$S ~ det$t, col = 'green', lty = 1, lwd = 2)
 lines(det$I ~ det$t, col = 'green', lty = 1, lwd = 2)
 lines(det$R ~ det$t, col = 'green', lty = 1, lwd = 2)
