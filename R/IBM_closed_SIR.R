@@ -4,16 +4,20 @@
 #' @param beta  Transmission parameter
 #' @param N Population size
 #' @param i0 Number of infected people at time = 0
-#' @param t_final End time
-#' @param dt time step
+#' @param days End time
+#' @param substep time step
 #'
 #' @return IBM closed SIR model output
 #' @export
 ibm_closed_sir <- function(sigma = 2, beta = 6, N = 1000, i0 = 1,
-                           t_final = 100, dt = 0.01){
+                           days = 100, substep = 1){
+
+  dt <- 1 / substep
+  beta <- beta/ substep
+  sigma <- sigma / substep
 
   # Create vector of times
-  t <- seq(0, t_final, dt)
+  t <- seq(0, days, dt)
 
   # daily prob of infection
   prob_recover <- rate_to_prob(sigma, dt)
