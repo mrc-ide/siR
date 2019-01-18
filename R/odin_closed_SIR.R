@@ -4,7 +4,7 @@
 #' @param beta  Transmission parameter
 #' @param N Population size
 #' @param i0 Number of infected people at time = 0
-#' @param Days Number of days
+#' @param days Number of days
 #' @param substep Number of substeps per day
 #'
 #' @return Odin closed SIR model output

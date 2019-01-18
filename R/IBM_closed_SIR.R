@@ -73,6 +73,7 @@ ibm_closed_sir <- function(sigma = 2, beta = 6, N = 1000, i0 = 1,
 #'
 #' @param I_prev Number of infected people in previous timestep
 #' @param N_inv  Inverse of the number of people
+#' @param dt Inverse of substep
 #' @inheritParams ibm_closed_sir
 #'
 #' @return Probability of infection

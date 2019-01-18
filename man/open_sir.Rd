@@ -5,8 +5,7 @@
 \title{Open sIR}
 \usage{
 open_sir(N = 1000, days = 100, substep = 1, sigma = 0.003,
-  beta = 0.05, i0 = 10, age_of_death = age_of_death,
-  equilibrium_age = equilibrium_age)
+  beta = 0.05, i0 = 10, aod = age_of_death, eq = equilibrium_age)
 }
 \arguments{
 \item{N}{Number of individuals}
@@ -21,9 +20,9 @@ open_sir(N = 1000, days = 100, substep = 1, sigma = 0.003,
 
 \item{i0}{Initial number of infected}
 
-\item{age_of_death}{Distribution of age of death}
+\item{aod}{Distribution of age of death}
 
-\item{equilibrium_age}{Equilibrium age distribution}
+\item{eq}{Equilibrium age distribution}
 }
 \value{
 A processed data.frame of model output

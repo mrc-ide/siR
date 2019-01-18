@@ -4,7 +4,12 @@
 \alias{get_time}
 \title{Model times}
 \usage{
-get_time(days, step)
+get_time(days, substep)
+}
+\arguments{
+\item{days}{Number of days}
+
+\item{substep}{Steps per day}
 }
 \value{
 Vector of times

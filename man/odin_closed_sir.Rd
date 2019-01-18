@@ -10,6 +10,8 @@ odin_closed_sir(N = 1000, days = 100, substep = 1, sigma = 2,
 \arguments{
 \item{N}{Population size}
 
+\item{days}{Number of days}
+
 \item{substep}{Number of substeps per day}
 
 \item{sigma}{Recovery rate (1 / mean duration of infection)}
@@ -17,8 +19,6 @@ odin_closed_sir(N = 1000, days = 100, substep = 1, sigma = 2,
 \item{beta}{Transmission parameter}
 
 \item{i0}{Number of infected people at time = 0}
-
-\item{Days}{Number of days}
 }
 \value{
 Odin closed SIR model output

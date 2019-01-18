@@ -1,8 +1,8 @@
 
 devtools::load_all()
 
-N <- 10000
-t <- 365 * 50
+N <- 1000
+t <- 365 * 5
 step <- 1
 beta <- 0.03
 sigma <- 0.005
@@ -14,11 +14,10 @@ aod <- c(rep(0,89), 1)
 plot(NA, ylim = c(0, N), xlim = c(0, t * step), ylab = "N", xlab = "Time")
 
 for(i in 1:20){
-  t1 <- dplyr::bind_rows(open_sir(N, t, step, aod, equilibrium_age, beta,
-                                  sigma, i0))
-  lines(t1$S)
-  lines(t1$I, col = "red")
-  lines(t1$R, col = "purple")
+  t1 <- open_sir(N, t, step, sigma, beta, i0, aod, equilibrium_age)
+  lines(t1$S ~ t1$t)
+  lines(t1$I ~ t1$t, col = "red")
+  lines(t1$R ~ t1$t, col = "purple")
 }
 
 det <- odin_closed_sir(N = N, beta = beta, sigma = sigma,
@@ -60,9 +59,8 @@ step <- 1
 plot(NA, ylim = c(0, N), xlim = c(0, t * step), ylab = "N", xlab = "Time")
 
 for(i in 1:10){
-  t1 <- dplyr::bind_rows(open_sir(N, t, step, age_of_death, equilibrium_age,
-                                  beta2, sigma2, i0))
-  lines(t1$S)
-  lines(t1$I, col = "red")
-  lines(t1$R, col = "purple")
+  t1 <- open_sir(N, t, step, sigma2, beta2, i0, age_of_death, equilibrium_age)
+  lines(t1$S ~ t1$t)
+  lines(t1$I ~ t1$t, col = "red")
+  lines(t1$R ~ t1$t, col = "purple")
 }

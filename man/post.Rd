@@ -4,10 +4,14 @@
 \alias{post}
 \title{Post processing wrapper for c++ output}
 \usage{
-post(out, t, step)
+post(out, days, substep)
 }
 \arguments{
 \item{out}{Raw model output}
+
+\item{days}{Number of days}
+
+\item{substep}{Steps per day}
 }
 \value{
 Processed c++ output
