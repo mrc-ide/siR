@@ -19,7 +19,7 @@
 //' @param sigma Recovery rate (per day)
 //' @export
 // [[Rcpp::export]]
-Rcpp::List open_sir(int N, int days, int substep,
+Rcpp::List open_sir_rcpp(int N, int days, int substep,
                     std::vector<double> age_of_death,
                     std::vector<double> equilibrium_age,
                     double beta, double sigma, int i0){

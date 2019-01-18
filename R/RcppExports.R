@@ -45,8 +45,8 @@ draw_equilibrium_death_age <- function(age, age_years, age_of_death, max_age) {
 #' @param i0 Initial number of infecteds
 #' @param sigma Recovery rate (per day)
 #' @export
-open_sir <- function(N, days, substep, age_of_death, equilibrium_age, beta, sigma, i0) {
-    .Call('_siR_open_sir', PACKAGE = 'siR', N, days, substep, age_of_death, equilibrium_age, beta, sigma, i0)
+open_sir_rcpp <- function(N, days, substep, age_of_death, equilibrium_age, beta, sigma, i0) {
+    .Call('_siR_open_sir_rcpp', PACKAGE = 'siR', N, days, substep, age_of_death, equilibrium_age, beta, sigma, i0)
 }
 
 #' Sample single integer from range.
