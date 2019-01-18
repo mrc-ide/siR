@@ -50,7 +50,7 @@ int draw_equilibrium_death_age(int age, std::vector<int> &age_years, std::vector
   // If death will occur in current year
   if(live_for_years == year){
     //Rcpp::Rcout << "a " << year << std::endl;
-    lifespan = year * 365 + sample_int(day, 365);
+    lifespan = year * 365 + sample_int(day + 1, 365);
   } else {
     //Rcpp::Rcout << "b " << year << std::endl;
     lifespan = live_for_years * 365 + sample_int(1, 365);
