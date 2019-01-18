@@ -132,7 +132,6 @@ Rcpp::List open_sir(int N, int days, int substep,
     // Record deaths in timestep
     deaths[t] = death_scheduler[t].size();
     // Implement scheduled deaths (replace with new born)
-    if(death_scheduler[t].size() > 0){
       for(unsigned int d = 0; d < death_scheduler[t].size(); d++){
         switch(Pop[death_scheduler[t][d]].status){
         case susceptible: break;
@@ -157,7 +156,6 @@ Rcpp::List open_sir(int N, int days, int substep,
           death_scheduler[days_to_steps(np.death_time, substep)].push_back(d);
         }
       }
-    }
     // -------------------------------------------------------------------------
   }
 
